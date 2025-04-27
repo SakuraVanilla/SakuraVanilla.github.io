@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tier List - SakuraVanilla</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+      background: url('tree.gif') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      padding: 40px;
+      animation: fadeIn 1s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    #tierList {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 30px;
+      border-radius: 12px;
+      margin-top: 30px;
+      display: inline-block;
+    }
+
+    .btn {
+      display: inline-block;
+      margin: 10px;
+      padding: 12px 24px;
+      background-color: #ff69b4;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #ff85c1;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+
+  <img src="logo.png" alt="SakuraVanilla Logo" id="logo" style="width: 120px; cursor: pointer;">
+
+  <h1>🌸 Sakura Tier List 🌸</h1>
+
+  <div id="tierList">
+    <ul id="list">
+      <li>Example Person 1</li>
+      <li>Example Person 2</li>
+    </ul>
+  </div>
+
+  <br>
+  <a href="index.html" class="btn">← Back to Home</a>
+
+  <script>
+    let clickCount = 0;
+    let clickTimer = null;
+
+    document.getElementById('logo').addEventListener('click', () => {
+      clickCount++;
+      if (clickCount === 1) {
+        clickTimer = setTimeout(() => clickCount = 0, 5000);
+      }
+      if (clickCount >= 6) {
+        clearTimeout(clickTimer);
+        const password = prompt("Enter Developer Password:");
+        if (password === "yourDevPassword123") {
+          devMode();
+        } else {
+          alert("Wrong password!");
+        }
+        clickCount = 0;
+      }
+    });
+
+    function devMode() {
+      alert("Developer Mode Activated!");
+      const action = prompt("Type 'add' to add or 'remove' to remove:");
+      const list = document.getElementById('list');
+
+      if (action === 'add') {
+        const name = prompt("Enter name to add:");
+        if (name && !hasBadWords(name)) {
+          const li = document.createElement('li');
+          li.textContent = name;
+          list.appendChild(li);
+        } else {
+          alert("Invalid name or contains profanity!");
+        }
+      } else if (action === 'remove') {
+        const name = prompt("Enter exact name to remove:");
+        const items = Array.from(list.children);
+        const found = items.find(li => li.textContent === name);
+        if (found) {
+          list.removeChild(found);
+        } else {
+          alert("Name not found!");
+        }
+      }
+    }
+
+    function hasBadWords(text) {
+      const badWords = ["badword1", "badword2", "profanityexample"];
+      return badWords.some(word => text.toLowerCase().includes(word));
+    }
+  </script>
+
+</body>
+</html>
