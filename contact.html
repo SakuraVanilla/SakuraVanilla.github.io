@@ -80,7 +80,7 @@
 
   <script>
     const form = document.getElementById('contactForm');
-    form.addEventListener('submit', async (e) => {
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
 
       const ign = document.getElementById('name').value;
@@ -89,20 +89,27 @@
 
       const webhookURL = "https://discord.com/api/webhooks/1366056561973133454/x3ztNL1QZ8WG5Bf7fzxDeEwGsTUsPsAJlDXS-NBfc0vr48sXqKgEV4kJl9Mp6MzGmxDA";
 
+      // Instead of fetch, we create a hidden form
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", webhookURL, true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            alert('Message sent! Thank you 🌸');
+            form.reset();
+          } else {
+            alert('Failed to send. Please try again.');
+          }
+        }
+      };
+
       const payload = {
         content: `🌸 **New Contact Form Submission!** 🌸\n\n**IGN:** ${ign}\n**Discord:** ${discord}\n**Message:** ${message}`
       };
 
-      await fetch(webhookURL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      });
-
-      alert('Message sent! Thank you!');
-      form.reset();
+      xhr.send(JSON.stringify(payload));
     });
   </script>
 
