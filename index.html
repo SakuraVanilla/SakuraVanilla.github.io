@@ -2,229 +2,70 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>SakuraVanilla | Tier List</title>
+  <title>About Us - SakuraVanilla</title>
   <style>
     body {
-      margin: 0;
+      background: linear-gradient(to bottom right, #ffe6f0, #fff0f5);
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(#ffe6f0, #ffffff);
-      overflow-x: hidden;
-    }
-    header {
       text-align: center;
-      padding: 30px;
-      background-color: #ffb6c1;
-      position: relative;
+      padding: 40px;
+      animation: fadeIn 1s ease-in;
     }
-    header img {
-      width: 100px;
-      cursor: pointer;
-      transition: transform 0.3s ease;
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
-    header img:hover {
-      transform: scale(1.1);
+
+    img {
+      width: 150px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      animation: float 3s ease-in-out infinite;
     }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
     h1 {
-      font-size: 48px;
-      color: white;
-      margin: 0;
-    }
-    .tier-section {
-      padding: 30px;
-    }
-    .tier {
-      margin-bottom: 50px;
-    }
-    .tier h2 {
       color: #ff69b4;
       font-size: 36px;
-      margin-bottom: 20px;
-      text-align: center;
     }
-    .member-list {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
+
+    p {
+      color: #555;
+      font-size: 18px;
+      margin: 20px 0;
     }
-    .member {
-      background: white;
-      padding: 15px 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      font-size: 20px;
-      position: relative;
-      animation: fadeIn 0.5s;
-    }
-    .delete-btn {
-      display: none;
-      position: absolute;
-      top: 5px;
-      right: 8px;
-      background: #ff4d4d;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 24px;
-      height: 24px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    .add-btn {
-      display: none;
-      margin: 20px auto;
-      padding: 10px 20px;
-      font-size: 20px;
-      border: none;
-      border-radius: 10px;
+
+    .btn {
+      display: inline-block;
+      margin: 10px;
+      padding: 12px 24px;
       background-color: #ff69b4;
       color: white;
-      cursor: pointer;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background 0.3s, transform 0.3s;
     }
-    .save-btn {
-      display: none;
-      margin: 30px auto 10px;
-      padding: 10px 30px;
-      font-size: 22px;
-      border: none;
-      border-radius: 10px;
-      background-color: #32cd32;
-      color: white;
-      cursor: pointer;
-    }
-    @keyframes fadeIn {
-      from {opacity: 0; transform: scale(0.8);}
-      to {opacity: 1; transform: scale(1);}
-    }
-    .dev-mode .delete-btn, .dev-mode .add-btn, .dev-mode .save-btn {
-      display: block;
-    }
-    /* Animated Background */
-    #background {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: url('tree-animation.gif') no-repeat center center;
-      background-size: cover;
-      z-index: -1;
-      opacity: 0.2;
-      animation: flowBackground 60s linear infinite;
-    }
-    @keyframes flowBackground {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+
+    .btn:hover {
+      background-color: #ff85c1;
+      transform: scale(1.05);
     }
   </style>
 </head>
 <body>
 
-<div id="background"></div>
+  <img src="logo.png" alt="SakuraVanilla Logo" id="logo">
 
-<header>
-  <img src="logo.png" id="logo" alt="Logo">
-  <h1>🌸 SakuraVanilla Tier List 🌸</h1>
-</header>
+  <h1>Welcome to SakuraVanilla</h1>
+  <p>A community built with passion and creativity 🌸</p>
 
-<div class="tier-section">
-  <div class="tier" id="sTier">
-    <h2>S Tier</h2>
-    <div class="member-list" id="sTierList"></div>
-    <button class="add-btn" onclick="addMember('S')">➕ Add Member</button>
-  </div>
-  <div class="tier" id="aTier">
-    <h2>A Tier</h2>
-    <div class="member-list" id="aTierList"></div>
-    <button class="add-btn" onclick="addMember('A')">➕ Add Member</button>
-  </div>
-
-  <button class="save-btn" onclick="saveChanges()">💾 Save Changes</button>
-</div>
-
-<script>
-let devMode = false;
-let clickCount = 0;
-let lastClick = 0;
-const members = {
-  S: ["SakuraVanilla", "CoolPlayer123"],
-  A: ["AnotherGuy"]
-};
-
-// Click Logo 6x Fast for Dev Mode
-document.getElementById('logo').addEventListener('click', () => {
-  const now = Date.now();
-  if (now - lastClick < 1000) clickCount++;
-  else clickCount = 1;
-  lastClick = now;
-
-  if (clickCount >= 6) {
-    const password = prompt("Enter Dev Password:");
-    if (password === "calm") {
-      document.body.classList.add('dev-mode');
-      devMode = true;
-      alert("Dev Mode Activated!");
-    } else {
-      alert("Wrong password!");
-    }
-  }
-});
-
-function renderMembers() {
-  document.getElementById('sTierList').innerHTML = "";
-  document.getElementById('aTierList').innerHTML = "";
-
-  members.S.forEach(name => {
-    const el = createMemberElement(name, 'S');
-    document.getElementById('sTierList').appendChild(el);
-  });
-  members.A.forEach(name => {
-    const el = createMemberElement(name, 'A');
-    document.getElementById('aTierList').appendChild(el);
-  });
-}
-
-function createMemberElement(name, tier) {
-  const div = document.createElement('div');
-  div.className = 'member';
-  div.innerText = name;
-
-  if (devMode) {
-    const btn = document.createElement('button');
-    btn.className = 'delete-btn';
-    btn.innerText = '🗑️';
-    btn.onclick = () => {
-      if (confirm(`Remove ${name}?`)) {
-        members[tier] = members[tier].filter(n => n !== name);
-        renderMembers();
-      }
-    };
-    div.appendChild(btn);
-  }
-  return div;
-}
-
-function addMember(tier) {
-  const newName = prompt("Enter the member's name:");
-  if (newName && newName.length <= 20) {
-    if (hasBadWords(newName)) {
-      alert("Inappropriate names are not allowed.");
-      return;
-    }
-    members[tier].push(newName);
-    renderMembers();
-  }
-}
-
-function saveChanges() {
-  alert("Changes saved! (Locally - Public Auto Updated)");
-}
-
-function hasBadWords(text) {
-  const badWords = ["badword1", "badword2", "badword3"]; // Customize!
-  return badWords.some(word => text.toLowerCase().includes(word));
-}
-
-renderMembers();
-</script>
+  <a href="tierlist.html" class="btn">Tier List</a>
+  <a href="contact.html" class="btn">Contact</a>
 
 </body>
 </html>
