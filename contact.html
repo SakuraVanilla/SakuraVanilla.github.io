@@ -62,7 +62,7 @@
 
   <h1>Contact SakuraVanilla</h1>
 
-  <form>
+  <form id="contactForm">
     <label for="name">Your Name</label>
     <input type="text" id="name" name="name" required>
 
@@ -77,6 +77,34 @@
 
   <br>
   <a href="index.html">← Back to Home</a>
+
+  <script>
+    const form = document.getElementById('contactForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+
+      const webhookURL = "https://discord.com/api/webhooks/1366056561973133454/x3ztNL1QZ8WG5Bf7fzxDeEwGsTUsPsAJlDXS-NBfc0vr48sXqKgEV4kJl9Mp6MzGmxDA";
+
+      const payload = {
+        content: `🌸 **New Contact Form Submission!** 🌸\n\n**Name:** ${name}\n**Email:** ${email}\n**Message:** ${message}`
+      };
+
+      await fetch(webhookURL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      alert('Message sent! Thank you!');
+      form.reset();
+    });
+  </script>
 
 </body>
 </html>
