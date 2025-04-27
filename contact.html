@@ -5,56 +5,51 @@
   <title>Contact - SakuraVanilla</title>
   <style>
     body {
-      background-color: #ffffff;
-      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to right, #ffe6f0, #fff0f5);
+      font-family: 'Poppins', sans-serif;
       text-align: center;
-      padding: 50px;
+      padding: 40px;
+      animation: fadeIn 1s ease-in;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
     form {
       display: inline-block;
-      text-align: left;
-      background: #ffe6f0;
+      background: #ffffffaa;
       padding: 30px;
       border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
-    label {
+
+    label, input, textarea, button {
       display: block;
-      margin-top: 15px;
-      margin-bottom: 5px;
-      font-weight: bold;
-      color: #555;
-    }
-    input, textarea {
       width: 300px;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
+      margin: 10px auto;
       font-size: 16px;
     }
+
     button {
-      margin-top: 20px;
-      width: 100%;
-      padding: 12px;
       background-color: #ff69b4;
-      border: none;
       color: white;
-      font-size: 18px;
+      border: none;
+      padding: 10px;
       border-radius: 8px;
-      cursor: pointer;
       transition: background 0.3s;
     }
+
     button:hover {
       background-color: #ff85c1;
     }
+
     a {
+      margin-top: 20px;
       display: inline-block;
-      margin-top: 30px;
-      padding: 10px 20px;
-      background-color: #ff69b4;
-      color: white;
+      color: #ff69b4;
       text-decoration: none;
-      border-radius: 8px;
     }
   </style>
 </head>
@@ -63,54 +58,60 @@
   <h1>Contact SakuraVanilla</h1>
 
   <form id="contactForm">
-    <label for="name">Ign</label>
-    <input type="text" id="name" name="name" required>
+    <label for="ign">IGN</label>
+    <input type="text" id="ign" name="ign" required>
 
     <label for="discord">Discord</label>
     <input type="text" id="discord" name="discord" required>
 
-    <label for="message">Your Message</label>
+    <label for="message">Message</label>
     <textarea id="message" name="message" rows="5" required></textarea>
 
     <button type="submit">Send Message</button>
   </form>
 
-  <br>
   <a href="index.html">← Back to Home</a>
 
   <script>
-    const form = document.getElementById('contactForm');
-    form.addEventListener('submit', (e) => {
+    const webhookURL = "https://discord.com/api/webhooks/1366056561973133454/x3ztNL1QZ8WG5Bf7fzxDeEwGsTUsPsAJlDXS-NBfc0vr48sXqKgEV4kJl9Mp6MzGmxDA";
+    const cooldown = {};
+
+    document.getElementById('contactForm').addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const ign = document.getElementById('name').value;
-      const discord = document.getElementById('discord').value;
-      const message = document.getElementById('message').value;
+      const ign = document.getElementById('ign').value.trim();
+      const discord = document.getElementById('discord').value.trim();
+      const message = document.getElementById('message').value.trim();
 
-      const webhookURL = "https://discord.com/api/webhooks/1366056561973133454/x3ztNL1QZ8WG5Bf7fzxDeEwGsTUsPsAJlDXS-NBfc0vr48sXqKgEV4kJl9Mp6MzGmxDA";
+      if (hasBadWords(ign) || hasBadWords(discord)) {
+        alert('No bad words allowed!');
+        return;
+      }
 
-      // Instead of fetch, we create a hidden form
-      const xhr = new XMLHttpRequest();
-      xhr.open("POST", webhookURL, true);
-      xhr.setRequestHeader('Content-Type', 'application/json');
-
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-          if (xhr.status >= 200 && xhr.status < 300) {
-            alert('Message sent! Thank you 🌸');
-            form.reset();
-          } else {
-            alert('Failed to send. Please try again.');
-          }
-        }
-      };
+      if (cooldown[discord] && Date.now() - cooldown[discord] < 420000) {
+        alert('Cooldown active! Wait a bit!');
+        return;
+      }
 
       const payload = {
-        content: `🌸 **New Contact Form Submission!** 🌸\n\n**IGN:** ${ign}\n**Discord:** ${discord}\n**Message:** ${message}`
+        content: `🌸 **New Contact**\n\n**IGN:** ${ign}\n**Discord:** ${discord}\n**Message:** ${message}`
       };
 
-      xhr.send(JSON.stringify(payload));
+      await fetch(webhookURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      cooldown[discord] = Date.now();
+      alert('Message sent!');
+      e.target.reset();
     });
+
+    function hasBadWords(text) {
+      const badWords = ["badword1", "badword2", "anotherbadword"];
+      return badWords.some(word => text.toLowerCase().includes(word));
+    }
   </script>
 
 </body>
