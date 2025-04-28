@@ -4,12 +4,15 @@
   <meta charset="UTF-8">
   <title>SakuraVanilla's Website</title>
   <style>
-    body {
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
       background-color: #1e1e1e;
       font-family: 'Arial', sans-serif;
-      padding: 0;
-      margin: 0;
       color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
     }
     header {
       background-color: #2c2c2c;
@@ -73,18 +76,58 @@
     .dropdown:hover .dropdown-content {
       display: block;
     }
-    h1 {
+    main {
       text-align: center;
-      font-size: 36px;
-      margin: 50px 0 20px 0;
+      padding: 50px 20px;
+      flex: 1;
+    }
+    h1 {
+      font-size: 42px;
       color: #cc568b;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 18px;
+      max-width: 800px;
+      margin: 0 auto 40px auto;
+      line-height: 1.6;
+      color: #ccc;
+    }
+    hr {
+      border: 0;
+      height: 2px;
+      background: #cc568b;
+      margin: 50px auto;
+      width: 60%;
+      border-radius: 2px;
+    }
+    .quote-carousel {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+    .arrow {
+      font-size: 40px;
+      color: #cc568b;
+      cursor: pointer;
+      user-select: none;
+    }
+    .quote-text {
+      max-width: 600px;
+      font-size: 24px;
+      color: #f0f0f0;
+      padding: 0 20px;
+      text-align: center;
     }
     footer {
-      margin-top: 50px;
-      font-size: 14px;
-      color: #666;
       text-align: center;
       padding: 20px;
+      font-size: 14px;
+      color: #666;
+      background-color: #2c2c2c;
+      border-top: 3px solid #cc568b;
+      width: 100%;
     }
   </style>
 </head>
@@ -106,9 +149,44 @@
     </nav>
   </header>
 
-  <h1>More Coming Soon!</h1>
+  <main>
+    <h1>Welcome to Sakura Vanilla</h1>
+
+    <p>Welcome to our Sakura Vanilla home page! You can check out our tierlists in the top right by clicking on Rankings and selecting Tiers or Subtiers for vanilla MCBE WorldPvP. This project is made by our loving Sakura Vanilla team and we're always looking for more people to join us!</p>
+
+    <hr>
+
+    <div class="quote-carousel">
+      <div class="arrow" onclick="previousQuote()">&#8592;</div>
+      <div class="quote-text" id="quoteText">"Sigma" - Alex13217</div>
+      <div class="arrow" onclick="nextQuote()">&#8594;</div>
+    </div>
+  </main>
 
   <footer>© 2025 SakuraVanilla</footer>
+
+  <script>
+    const quotes = [
+      '"Sigma" - Alex13217',
+      '"We actually have to partner with you" - MrPotato',
+      '"Wait what the fuck" - Cornballape'
+    ];
+    let currentQuote = 0;
+
+    function showQuote() {
+      document.getElementById('quoteText').innerText = quotes[currentQuote];
+    }
+
+    function nextQuote() {
+      currentQuote = (currentQuote + 1) % quotes.length;
+      showQuote();
+    }
+
+    function previousQuote() {
+      currentQuote = (currentQuote - 1 + quotes.length) % quotes.length;
+      showQuote();
+    }
+  </script>
 
 </body>
 </html>
