@@ -2,41 +2,59 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Contact Form</title>
+  <title>Contact - SakuraVanilla</title>
   <style>
     body {
-      background: linear-gradient(to right, #ffe6f0, #fff0f5);
-      font-family: 'Poppins', sans-serif;
+      background-color: #ffffff;
+      font-family: 'Arial', sans-serif;
       text-align: center;
-      padding: 40px;
+      padding: 50px;
     }
-
     form {
       display: inline-block;
-      background: #ffffffaa;
+      text-align: left;
+      background: #ffe6f0;
       padding: 30px;
       border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
-
-    label, input, textarea, button {
+    label {
       display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #555;
+    }
+    input, textarea {
       width: 300px;
-      margin: 10px auto;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
       font-size: 16px;
     }
-
     button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
       background-color: #ff69b4;
-      color: white;
       border: none;
-      padding: 10px;
+      color: white;
+      font-size: 18px;
       border-radius: 8px;
+      cursor: pointer;
       transition: background 0.3s;
     }
-
     button:hover {
       background-color: #ff85c1;
+    }
+    a {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: #ff69b4;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
     }
   </style>
 </head>
@@ -45,40 +63,53 @@
   <h1>Contact SakuraVanilla</h1>
 
   <form id="contactForm">
-    <label for="ign">IGN</label>
-    <input type="text" id="ign" name="ign" required>
+    <label for="name">Ign</label>
+    <input type="text" id="name" name="name" required>
 
     <label for="discord">Discord</label>
     <input type="text" id="discord" name="discord" required>
 
-    <label for="message">Message</label>
+    <label for="message">Your Message</label>
     <textarea id="message" name="message" rows="5" required></textarea>
 
     <button type="submit">Send Message</button>
   </form>
 
-  <script>
-    const webhookURL = "https://discord.com/api/webhooks/1366056561973133454/x3ztNL1QZ8WG5Bf7fzxDeEwGsTUsPsAJlDXS-NBfc0vr48sXqKgEV4kJl9Mp6MzGmxDA";
+  <br>
+  <a href="index.html">← Back to Home</a>
 
-    document.getElementById('contactForm').addEventListener('submit', async (e) => {
+  <script>
+    const form = document.getElementById('contactForm');
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      const ign = document.getElementById('ign').value.trim();
-      const discord = document.getElementById('discord').value.trim();
-      const message = document.getElementById('message').value.trim();
+      const ign = document.getElementById('name').value;
+      const discord = document.getElementById('discord').value;
+      const message = document.getElementById('message').value;
 
-      const payload = {
-        content: `🌸 **New Contact**\n\n**IGN:** ${ign}\n**Discord:** ${discord}\n**Message:** ${message}`
+      const webhookURL = "https://discord.com/api/webhooks/1366056561973133454/x3ztNL1QZ8WG5Bf7fzxDeEwGsTUsPsAJlDXS-NBfc0vr48sXqKgEV4kJl9Mp6MzGmxDA";
+
+      // Instead of fetch, we create a hidden form
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", webhookURL, true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            alert('Message sent! Thank you 🌸');
+            form.reset();
+          } else {
+            alert('Failed to send. Please try again.');
+          }
+        }
       };
 
-      await fetch(webhookURL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
+      const payload = {
+        content: `🌸 **New Contact Form Submission!** 🌸\n\n**IGN:** ${ign}\n**Discord:** ${discord}\n**Message:** ${message}`
+      };
 
-      alert('Message sent!');
-      e.target.reset();
+      xhr.send(JSON.stringify(payload));
     });
   </script>
 
