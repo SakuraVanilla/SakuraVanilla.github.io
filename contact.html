@@ -1,15 +1,86 @@
-<!-- Contact Form -->
-<div style="max-width: 400px; margin: auto; padding: 20px; background: #2C2F33; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.5); color: #fff; font-family: sans-serif;">
-  <h2 style="text-align: center;">Contact Us</h2>
-  <form action="/auth/discord" method="GET">
-    <div style="margin-bottom: 15px;">
-      <label for="email" style="display: block; margin-bottom: 5px;">Email</label>
-      <input type="email" id="email" name="email" required style="width: 100%; padding: 10px; border-radius: 5px; border: none;">
-    </div>
-    <div style="margin-bottom: 15px;">
-      <label for="message" style="display: block; margin-bottom: 5px;">Message</label>
-      <textarea id="message" name="message" rows="4" required style="width: 100%; padding: 10px; border-radius: 5px; border: none;"></textarea>
-    </div>
-    <button type="submit" style="width: 100%; padding: 10px; background-color: #7289DA; border: none; border-radius: 5px; color: white; font-size: 16px; cursor: pointer;">Login with Discord</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Form</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #ffe6f0, #fff0f5);
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+
+    form {
+      display: inline-block;
+      background: #ffffffaa;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    label, input, textarea, button {
+      display: block;
+      width: 300px;
+      margin: 10px auto;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #ff85c1;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Contact SakuraVanilla</h1>
+
+  <form id="contactForm">
+    <label for="ign">IGN</label>
+    <input type="text" id="ign" name="ign" required>
+
+    <label for="discord">Discord</label>
+    <input type="text" id="discord" name="discord" required>
+
+    <label for="message">Message</label>
+    <textarea id="message" name="message" rows="5" required></textarea>
+
+    <button type="submit">Send Message</button>
   </form>
-</div>
+
+  <script>
+    const webhookURL = "https://discord.com/api/webhooks/1366056561973133454/x3ztNL1QZ8WG5Bf7fzxDeEwGsTUsPsAJlDXS-NBfc0vr48sXqKgEV4kJl9Mp6MzGmxDA";
+
+    document.getElementById('contactForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const ign = document.getElementById('ign').value.trim();
+      const discord = document.getElementById('discord').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      const payload = {
+        content: `🌸 **New Contact**\n\n**IGN:** ${ign}\n**Discord:** ${discord}\n**Message:** ${message}`
+      };
+
+      await fetch(webhookURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      alert('Message sent!');
+      e.target.reset();
+    });
+  </script>
+
+</body>
+</html>
