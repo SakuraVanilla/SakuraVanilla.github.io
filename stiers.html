@@ -76,12 +76,12 @@
             sorted.forEach(([player, stats]) => {
                 const row = document.createElement("tr");
                 row.innerHTML = `
-                    <td>${player}</td>
-                    <td>${stats.kills}</td>
-                    <td>${stats.deaths}</td>
-                    <td>${stats.kd}</td>
-                    <td>${Points.kd}</td>
-                    <td>${Tier.kd}</td>
+                        <td>${player}</td>
+                        <td>${stats.kills}</td>
+                        <td>${stats.deaths}</td>
+                        <td>${stats.kd}</td>
+                        <td>${stats.Points}<td>
+                        <td>${stats.Tier}<td>
                 `;
                 tbody.appendChild(row);
             });
