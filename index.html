@@ -2,113 +2,57 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>About Us - SakuraVanilla</title>
+  <title>SakuraVanilla's Website</title>
   <style>
-    /* Background Animation */
-    @keyframes float {
-      0% { transform: translateY(0); opacity: 1; }
-      50% { transform: translateY(-10px); opacity: 0.8; }
-      100% { transform: translateY(0); opacity: 1; }
-    }
-
     body {
-      background: linear-gradient(to bottom right, #ffe6f0, #fff0f5);
-      font-family: 'Poppins', sans-serif;
+      background-color: #ffffff;
+      font-family: 'Arial', sans-serif;
       text-align: center;
-      padding: 40px;
-      animation: fadeIn 1s ease-in;
-      position: relative;
-      overflow: hidden;
+      padding: 50px;
     }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
     img {
-      width: 150px;
-      border-radius: 20px;
-      margin-bottom: 20px;
-      animation: float 3s ease-in-out infinite;
+      width: 300px;
+      margin-bottom: 30px;
     }
-
-    .floating-petal {
-      position: absolute;
-      top: -50px;
-      left: 50%;
-      width: 30px;
-      height: 30px;
-      background: url('sakura-petal.png') no-repeat center center;
-      animation: float 4s ease-in-out infinite;
-      opacity: 0.5;
-    }
-
     h1 {
-      color: #ff69b4;
       font-size: 36px;
+      margin-bottom: 20px;
+      color: #333;
     }
-
-    p {
-      color: #555;
-      font-size: 18px;
-      margin: 20px 0;
-    }
-
-    .btn {
+    .button {
       display: inline-block;
       margin: 10px;
-      padding: 12px 24px;
+      padding: 15px 30px;
+      font-size: 18px;
       background-color: #ff69b4;
       color: white;
       text-decoration: none;
       border-radius: 8px;
-      transition: background 0.3s, transform 0.3s;
+      transition: background 0.3s;
     }
-
-    .btn:hover {
+    .button:hover {
       background-color: #ff85c1;
-      transform: scale(1.05);
     }
-
-    /* Splash Screen */
-    #splash {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #ffe6f0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      animation: fadeIn 2s ease-in;
-    }
-
-    #splash img {
-      width: 100px;
-      animation: float 3s ease-in-out infinite;
+    footer {
+      margin-top: 50px;
+      font-size: 14px;
+      color: #aaa;
     }
   </style>
 </head>
 <body>
-  <!-- Splash Screen -->
-  <div id="splash">
-    <img src="sakura-petal.png" alt="Loading...">
+
+  <img src="logo.png" alt="SakuraVanilla Logo">
+  
+  <h1>More:</h1>
+  
+  <div>
+    <a class="button" href="discord.html">Discord Info</a>
+    <a class="button" href="contact.html">Contact</a>
+    <a class="button" href="server.html">Server Info</a>
   </div>
 
-  <img src="logo.png" alt="SakuraVanilla Logo" id="logo">
-  <h1>Welcome to SakuraVanilla</h1>
-  <p>A community built with passion and creativity 🌸</p>
-  <a href="tierlist.html" class="btn">Tier List</a>
-  <a href="contact.html" class="btn">Contact</a>
+  <footer>© 2025 SakuraVanilla</footer>
 
-  <script>
-    // Hide splash screen after 3 seconds
-    setTimeout(() => {
-      document.getElementById('splash').style.display = 'none';
-    }, 3000);
-  </script>
 </body>
 </html>
