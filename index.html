@@ -5,52 +5,108 @@
   <title>SakuraVanilla's Website</title>
   <style>
     body {
-      background-color: #ffffff;
+      background-color: #1e1e1e;
       font-family: 'Arial', sans-serif;
-      text-align: center;
-      padding: 50px;
+      padding: 0;
+      margin: 0;
+      color: #f0f0f0;
     }
-    img {
-      width: 300px;
-      margin-bottom: 30px;
+    header {
+      background-color: #2c2c2c;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 50px;
+      border-bottom: 3px solid #cc568b;
+    }
+    .logo {
+      width: 150px;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+    }
+    nav a {
+      text-decoration: none;
+      color: #f0f0f0;
+      font-size: 18px;
+      padding: 10px 20px;
+      border: 2px solid #cc568b;
+      border-radius: 8px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    nav a:hover {
+      background-color: #cc568b;
+      color: #fff;
+    }
+    .dropdown {
+      position: relative;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #333;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.4);
+      z-index: 1;
+      top: 120%;
+      left: 0;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .dropdown-content a {
+      display: block;
+      padding: 12px 16px;
+      text-align: left;
+      border: none;
+      border-bottom: 1px solid #444;
+      background: #333;
+      color: #f0f0f0;
+      font-size: 16px;
+    }
+    .dropdown-content a:hover {
+      background-color: #cc568b;
+      color: #fff;
+    }
+    .dropdown:hover .dropdown-content {
+      display: block;
     }
     h1 {
+      text-align: center;
       font-size: 36px;
-      margin-bottom: 20px;
-      color: #333;
-    }
-    .button {
-      display: inline-block;
-      margin: 10px;
-      padding: 15px 30px;
-      font-size: 18px;
-      background-color: #ff69b4;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      transition: background 0.3s;
-    }
-    .button:hover {
-      background-color: #ff85c1;
+      margin: 50px 0 20px 0;
+      color: #cc568b;
     }
     footer {
       margin-top: 50px;
       font-size: 14px;
-      color: #aaa;
+      color: #666;
+      text-align: center;
+      padding: 20px;
     }
   </style>
 </head>
 <body>
 
-  <img src="logo.png" alt="SakuraVanilla Logo">
-  
-  <h1>More:</h1>
-  
-  <div>
-    <a class="button" href="discord.html">Discord Info</a>
-    <a class="button" href="contact.html">Contact</a>
-    <a class="button" href="server.html">Server Info</a>
-  </div>
+  <header>
+    <img class="logo" src="logo.png" alt="SakuraVanilla Logo">
+    <nav>
+      <a href="https://sakuravanilla.github.io">Home</a>
+      <div class="dropdown">
+        <a href="#">Rankings</a>
+        <div class="dropdown-content">
+          <a href="https://sakuravanilla.github.io/tiers.html">Tiers</a>
+          <a href="https://sakuravanilla.github.io/subtiers.html">Subtiers</a>
+        </div>
+      </div>
+      <a href="https://discord.gg/PzxeWYZkz6">Discord</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <h1>More Coming Soon!</h1>
 
   <footer>© 2025 SakuraVanilla</footer>
 
