@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Tier List - SakuraVanilla</title>
+  <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-database.js"></script>
   <style>
     body {
       margin: 0;
@@ -12,12 +14,6 @@
       background-size: cover;
       color: #fff;
       padding: 40px;
-      animation: fadeIn 1s ease-in;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
     }
 
     #tierList {
@@ -46,73 +42,45 @@
   </style>
 </head>
 <body>
-
   <img src="logo.png" alt="SakuraVanilla Logo" id="logo" style="width: 120px; cursor: pointer;">
-
   <h1>🌸 Sakura Tier List 🌸</h1>
-
   <div id="tierList">
     <ul id="list">
-      <li>Example Person 1</li>
-      <li>Example Person 2</li>
+      <!-- Tier list items will appear here -->
     </ul>
   </div>
-
   <br>
   <a href="index.html" class="btn">← Back to Home</a>
 
   <script>
-    let clickCount = 0;
-    let clickTimer = null;
+    const firebaseConfig = {
+      apiKey: "YOUR_FIREBASE_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
 
-    document.getElementById('logo').addEventListener('click', () => {
-      clickCount++;
-      if (clickCount === 1) {
-        clickTimer = setTimeout(() => clickCount = 0, 5000);
-      }
-      if (clickCount >= 6) {
-        clearTimeout(clickTimer);
-        const password = prompt("Enter Developer Password:");
-        if (password === "yourDevPassword123") {
-          devMode();
-        } else {
-          alert("Wrong password!");
-        }
-        clickCount = 0;
-      }
+    const db = firebase.database();
+    const tierListRef = db.ref('tierlist');
+
+    // Fetch initial tier list
+    tierListRef.on('value', (snapshot) => {
+      const list = snapshot.val() || [];
+      const ul = document.getElementById('list');
+      ul.innerHTML = ''; // Clear previous items
+      list.forEach(name => {
+        const li = document.createElement('li');
+        li.textContent = name;
+        ul.appendChild(li);
+      });
     });
 
-    function devMode() {
-      alert("Developer Mode Activated!");
-      const action = prompt("Type 'add' to add or 'remove' to remove:");
-      const list = document.getElementById('list');
-
-      if (action === 'add') {
-        const name = prompt("Enter name to add:");
-        if (name && !hasBadWords(name)) {
-          const li = document.createElement('li');
-          li.textContent = name;
-          list.appendChild(li);
-        } else {
-          alert("Invalid name or contains profanity!");
-        }
-      } else if (action === 'remove') {
-        const name = prompt("Enter exact name to remove:");
-        const items = Array.from(list.children);
-        const found = items.find(li => li.textContent === name);
-        if (found) {
-          list.removeChild(found);
-        } else {
-          alert("Name not found!");
-        }
-      }
-    }
-
-    function hasBadWords(text) {
-      const badWords = ["badword1", "badword2", "profanityexample"];
-      return badWords.some(word => text.toLowerCase().includes(word));
-    }
+    // Developer Mode logic here...
   </script>
-
 </body>
 </html>
