@@ -4,60 +4,18 @@
   <meta charset="UTF-8">
   <title>Contact - SakuraVanilla</title>
   <style>
-    body {
-      background: linear-gradient(to right, #ffe6f0, #fff0f5);
-      font-family: 'Poppins', sans-serif;
-      text-align: center;
-      padding: 40px;
-      animation: fadeIn 1s ease-in;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    form {
-      display: inline-block;
-      background: #ffffffaa;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-
-    label, input, textarea, button {
-      display: block;
-      width: 300px;
-      margin: 10px auto;
-      font-size: 16px;
-    }
-
-    button {
-      background-color: #ff69b4;
-      color: white;
-      border: none;
-      padding: 10px;
-      border-radius: 8px;
-      transition: background 0.3s;
-    }
-
-    button:hover {
-      background-color: #ff85c1;
-    }
-
-    a {
-      margin-top: 20px;
-      display: inline-block;
-      color: #ff69b4;
-      text-decoration: none;
-    }
+    /* Add your previous styles here... */
   </style>
 </head>
 <body>
 
   <h1>Contact SakuraVanilla</h1>
 
-  <form id="contactForm">
+  <div id="discordLoginContainer">
+    <button id="discordLoginBtn">Login with Discord</button>
+  </div>
+
+  <form id="contactForm" style="display:none;">
     <label for="ign">IGN</label>
     <input type="text" id="ign" name="ign" required>
 
@@ -73,8 +31,21 @@
   <a href="index.html">← Back to Home</a>
 
   <script>
-    const webhookURL = "https://discord.com/api/webhooks/1366056561973133454/x3ztNL1QZ8WG5Bf7fzxDeEwGsTUsPsAJlDXS-NBfc0vr48sXqKgEV4kJl9Mp6MzGmxDA";
-    const cooldown = {};
+    let discordUserId = null;
+
+    // Check if the user is logged in with Discord
+    async function checkDiscordLogin() {
+      const res = await fetch('/checkDiscordLogin');
+      if (res.ok) {
+        discordUserId = await res.json();
+        document.getElementById('discordLoginContainer').style.display = 'none';
+        document.getElementById('contactForm').style.display = 'block';
+      }
+    }
+
+    document.getElementById('discordLoginBtn').addEventListener('click', () => {
+      window.location.href = '/auth/discord';  // Redirect to Discord OAuth login
+    });
 
     document.getElementById('contactForm').addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -88,30 +59,29 @@
         return;
       }
 
-      if (cooldown[discord] && Date.now() - cooldown[discord] < 420000) {
-        alert('Cooldown active! Wait a bit!');
-        return;
-      }
+      // Send the contact form data to the backend
+      const payload = { ign, discord, message, userId: discordUserId };
 
-      const payload = {
-        content: `🌸 **New Contact**\n\n**IGN:** ${ign}\n**Discord:** ${discord}\n**Message:** ${message}`
-      };
-
-      await fetch(webhookURL, {
+      const res = await fetch('/submitContact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
 
-      cooldown[discord] = Date.now();
-      alert('Message sent!');
-      e.target.reset();
+      if (res.ok) {
+        alert('Message sent!');
+        e.target.reset();
+      } else {
+        alert('Failed to send message.');
+      }
     });
 
     function hasBadWords(text) {
-      const badWords = ["badword1", "badword2", "anotherbadword"];
+      const badWords = ["badword1", "badword2", "anotherbadword"]; // Expand list dynamically
       return badWords.some(word => text.toLowerCase().includes(word));
     }
+
+    checkDiscordLogin();  // Check if the user is already logged in
   </script>
 
 </body>
