@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact - SakuraVanilla</title>
+  <style>
+    /* Add your previous styles here... */
+  </style>
+</head>
+<body>
+
+  <h1>Contact SakuraVanilla</h1>
+
+  <div id="discordLoginContainer">
+    <button id="discordLoginBtn">Login with Discord</button>
+  </div>
+
+  <form id="contactForm" style="display:none;">
+    <label for="ign">IGN</label>
+    <input type="text" id="ign" name="ign" required>
+
+    <label for="discord">Discord</label>
+    <input type="text" id="discord" name="discord" required>
+
+    <label for="message">Message</label>
+    <textarea id="message" name="message" rows="5" required></textarea>
+
+    <button type="submit">Send Message</button>
+  </form>
+
+  <a href="index.html">← Back to Home</a>
+
+  <script>
+    let discordUserId = null;
+
+    // Check if the user is logged in with Discord
+    async function checkDiscordLogin() {
+      const res = await fetch('/checkDiscordLogin');
+      if (res.ok) {
+        discordUserId = await res.json();
+        document.getElementById('discordLoginContainer').style.display = 'none';
+        document.getElementById('contactForm').style.display = 'block';
+      }
+    }
+
+    document.getElementById('discordLoginBtn').addEventListener('click', () => {
+      window.location.href = '/auth/discord';  // Redirect to Discord OAuth login
+    });
+
+    document.getElementById('contactForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const ign = document.getElementById('ign').value.trim();
+      const discord = document.getElementById('discord').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      if (hasBadWords(ign) || hasBadWords(discord)) {
+        alert('No bad words allowed!');
+        return;
+      }
+
+      // Send the contact form data to the backend
+      const payload = { ign, discord, message, userId: discordUserId };
+
+      const res = await fetch('/submitContact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) {
+        alert('Message sent!');
+        e.target.reset();
+      } else {
+        alert('Failed to send message.');
+      }
+    });
+
+    function hasBadWords(text) {
+      const badWords = ["badword1", "badword2", "anotherbadword"]; // Expand list dynamically
+      return badWords.some(word => text.toLowerCase().includes(word));
+    }
+
+    checkDiscordLogin();  // Check if the user is already logged in
+  </script>
+
+</body>
+</html>
