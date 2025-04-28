@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Imperial's Portfolio</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #121212;
+      color: #e0e0e0;
+    }
+    header {
+      background-color: #1f1f1f;
+      padding: 20px;
+      color: white;
+      text-align: center;
+    }
+    .portfolio {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 40px;
+      background-color: #1a1a1a;
+    }
+    .project {
+      background: #2a2a2a;
+      border: 1px solid #333;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+      transition: transform 0.3s;
+    }
+    .project:hover {
+      transform: translateY(-5px);
+    }
+    .project-content {
+      padding: 20px;
+    }
+    .project-title {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #ffffff;
+    }
+    .project-description {
+      font-size: 14px;
+      color: #b0b0b0;
+    }
+    .skills {
+      background-color: #1f1f1f;
+      padding: 40px;
+      text-align: center;
+    }
+    .skills h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #ffffff;
+    }
+    .skills-list {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .skills-list li {
+      background: #2a2a2a;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 16px;
+      color: #e0e0e0;
+      border: 1px solid #333;
+    }
+    .current-projects {
+      background-color: #1a1a1a;
+      padding: 60px 20px 20px 20px;
+      text-align: center;
+    }
+    .current-projects h2 {
+      font-size: 32px;
+      color: #ffffff;
+      margin-bottom: 20px;
+    }
+    .showcase {
+      background-color: #1a1a1a;
+      padding: 20px 40px 60px 40px;
+    }
+    .showcase-content {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+    .showcase-text {
+      flex: 1 1 300px;
+      max-width: 500px;
+      text-align: left;
+    }
+    .showcase-text h3 {
+      font-size: 26px;
+      color: #ffffff;
+      margin-bottom: 15px;
+    }
+    .showcase-text p {
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+    .showcase-text a {
+      color: #4da6ff;
+      text-decoration: none;
+    }
+    .showcase-text a:hover {
+      text-decoration: underline;
+    }
+    .showcase-image {
+      flex: 1 1 300px;
+      max-width: 500px;
+    }
+    .showcase-image img {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid #333;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+      transition: transform 0.3s;
+    }
+    .showcase-image img:hover {
+      transform: scale(1.02);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Imperial's Portfolio</h1>
+    <p>Minecraft Bedrock Developer | Discord: Imperialcb</p>
+  </header>
+
+  <section class="portfolio">
+    <div class="project">
+      <div class="project-content">
+        <h2 class="project-title">Skilled Minecrafter</h2>
+        <p class="project-description">DoubtedMango455 Is a highly experienced Minecraft player java/Bedrock. knows all command, can code in a lot of languege's. Established 2022.</p>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-content">
+        <h2 class="project-title">Losid Network</h2>
+        <p class="project-description">Minecraft network hosted by @DouubtedMango455 currently inactive. Active 2021 - 2024.</p>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-content">
+        <h2 class="project-title">Cyan Studios</h2>
+        <p class="project-description">Creats Fresh experiences for All Minecrafter's. Active 2024 - Present.</p>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-content">
+        <h2 class="project-title">Sakura Vanilla</h2>
+        <p class="project-description">A vinilla Pvp Server. Active 2025 - Present.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="skills">
+    <h2>Skills</h2>
+    <ul class="skills-list">
+      <li>JavaScript</li>
+      <li>TypeScript</li>
+      <li>JSON</li>
+      <li>HTML</li>
+      <li>LUA</li>
+      <li>Pvp</li>
+      <li>Minecraft Commands</li>
+    </ul>
+  </section>
+
+  <section class="current-projects">
+    <h2>Current Projects</h2>
+  </section>
+
+  <section class="showcase">
+    <!-- MCPEDL Showcase -->
+    <div class="showcase-content">
+      <div class="showcase-text">
+        <h3>MCPEDL</h3>
+        <p>I am DoubtedMango455 i teach others some of my skills. and i code and make maps a lot.</p>
+        <p>
+          <a href="https://mcpedl.com/user/fade-studios/" target="_blank">Fade Studios MCPEDL</a><br>
+          <a href="https://mcpedl.com/user/cyanstudios/" target="_blank">Cyan Studios MCPEDL</a>
+        </p>
+      </div>
+      <div class="showcase-image">
+        <img src="file:///C:/Users/Caleb's%20pc/OneDrive/Pictures/Screenshots%201/Screenshot%202025-04-27%20210251.png" alt="prodject show case">
+      </div>
+    </div>
+
+    <!-- Sakura Vanilla Showcase -->
+    <div class="showcase-content">
+      <div class="showcase-text">
+        <h3>Sakura Vanilla</h3>
+        <p>🌸 <strong>Sakura Vanilla</strong> 🌸 is Mango's recent prodject, a vanilla world PvP server — the first of its kind! It features tier lists, subtier kits, main vanilla kits, and a custom bot to go with it. Owner - imperial</p>
+        <p>
+          Links: <a href="https://discord.gg/PzxeWYZkz6" target="_blank">Discord</a>
+        </p>
+      </div>
+      <div class="showcase-image">
+        <img src="https://i3.ytimg.com/vi/aWO9QFuMWHQ/maxresdefault.jpg" alt="Sakura Vanilla Showcase">
+      </div>
+    </div>
+
+    <!-- Cyan Studios Showcase -->
+    <div class="showcase-content">
+      <div class="showcase-text">
+        <h3>Cyan Studios</h3>
+        <p><strong>Cyan Studios</strong> The Studio DoubtedMango455 codes for.</p>
+        <p>
+          Links: <a href="https://discord.gg/WxDRYZunuW" target="_blank">Discord</a>
+        </p>
+      </div>
+      <div class="showcase-image">
+        <img src="https://img.youtube.com/vi/mCJyOvrGX50/maxresdefault.jpg" alt="Cyan Studios Showcase">
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>
