@@ -27,7 +27,6 @@
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            display: none;
         }
 
         th, td {
@@ -48,28 +47,10 @@
         tr:hover {
             background-color: #505064;
         }
-
-        .loader {
-            border: 8px solid #f3f3f3;
-            border-top: 8px solid #ab4d77;
-            border-radius: 50%;
-            width: 80px;
-            height: 80px;
-            animation: spin 1s linear infinite;
-            margin-top: 50px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
     </style>
 </head>
 <body>
     <h1>Tier Leaderboard</h1>
-
-    <div class="loader" id="loader"></div>
-
     <table id="leaderboard">
         <thead>
             <tr>
@@ -84,32 +65,22 @@
 
     <script>
         async function fetchLeaderboard() {
-            const loader = document.getElementById('loader');
-            const table = document.getElementById('leaderboard');
-            try {
-                const response = await fetch('https://raw.githubusercontent.com/sakuravanilla/tier_data/main/tier_data.json');
-                const data = await response.json();
-                const tbody = document.querySelector("#leaderboard tbody");
+            const response = await fetch('https://raw.githubusercontent.com/sakuravanilla/tier_data/main/tier_data.json');
+            const data = await response.json();
+            const tbody = document.querySelector("#leaderboard tbody");
 
-                const sorted = Object.entries(data).sort(([, a], [, b]) => b.kd - a.kd);
+            const sorted = Object.entries(data).sort(([, a], [, b]) => b.kd - a.kd);
 
-                sorted.forEach(([player, stats]) => {
-                    const row = document.createElement("tr");
-                    row.innerHTML = `
-                        <td>${player}</td>
-                        <td>${stats.kills}</td>
-                        <td>${stats.deaths}</td>
-                        <td>${stats.kd}</td>
-                    `;
-                    tbody.appendChild(row);
-                });
-
-                loader.style.display = "none";
-                table.style.display = "table";
-            } catch (error) {
-                loader.innerText = "Failed to load leaderboard.";
-                console.error(error);
-            }
+            sorted.forEach(([player, stats]) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${player}</td>
+                    <td>${stats.kills}</td>
+                    <td>${stats.deaths}</td>
+                    <td>${stats.kd}</td>
+                `;
+                tbody.appendChild(row);
+            });
         }
 
         fetchLeaderboard();
