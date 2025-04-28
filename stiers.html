@@ -82,8 +82,7 @@
         </thead>
         <tbody></tbody>
     </table>
-
-    <script>
+<script>
     async function fetchLeaderboard() {
         const loader = document.getElementById('loader');
         const table = document.getElementById('leaderboard');
@@ -92,48 +91,47 @@
             const data = await response.json();
             const tbody = document.querySelector("#leaderboard tbody");
 
-            const sorted = Object.entries(data).sort(([, a], [, b]) => b.kd - a.kd);
+            const sorted = Object.entries(data).sort(([, a], [, b]) => b.points - a.points);
 
             sorted.forEach(([player, stats]) => {
-                const kd = stats.kd;
-                let tier = getTier(kd);
+                const points = stats.points;
+                const tier = getTier(points); // <--- changed to points, not rank!
 
                 const row = document.createElement("tr");
                 row.innerHTML = `
                     <td>${player}</td>
                     <td>${stats.kills}</td>
                     <td>${stats.deaths}</td>
-                    <td>${kd.toFixed(2)}</td>
+                    <td>${stats.points}</td>
                     <td>${tier}</td>
                 `;
                 tbody.appendChild(row);
             });
 
-            loader.remove(); // 🔥 remove spinner completely
+            loader.remove();
             table.style.display = "table";
         } catch (error) {
             console.error(error);
-            // ✨ Replace spinner with simple error text
             loader.style.border = "none";
             loader.style.width = "auto";
             loader.style.height = "auto";
             loader.style.animation = "none";
             loader.style.margin = "20px";
-            loader.innerText = "❌ Failed to load leaderboard, Currently in Work.";
+            loader.innerText = "❌ Failed to load leaderboard.";
         }
     }
 
-    function getTier(kd) {
-        if (kd >= 2.0) return 'HT5';
-        if (kd >= 1.7) return 'LT5';
-        if (kd >= 1.5) return 'HT4';
-        if (kd >= 1.3) return 'LT4';
-        if (kd >= 1.1) return 'HT3';
-        if (kd >= 0.9) return 'LT3';
-        if (kd >= 0.7) return 'HT2';
-        if (kd >= 0.5) return 'LT2';
-        if (kd >= 0.3) return 'HT1';
-        if (kd >= 0.1) return 'LT1';
+    function getTier(points) {
+        if (points >= 60) return 'HT5';
+        if (points >= 45) return 'LT5';
+        if (points >= 30) return 'HT4';
+        if (points >= 20) return 'LT4';
+        if (points >= 10) return 'HT3';
+        if (points >= 6) return 'LT3';
+        if (points >= 4) return 'HT2';
+        if (points >= 3) return 'LT2';
+        if (points >= 2) return 'HT1';
+        if (points >= 1) return 'LT1';
         return 'Unranked';
     }
 
