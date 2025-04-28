@@ -1,23 +1,89 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Tier List</title>
+    <meta charset="UTF-8">
+    <title>Tier Leaderboard</title>
+    <style>
+        body {
+            background-color: #1e1e2f;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px;
+        }
+
+        h1 {
+            color: #ab4d77;
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            background-color: #2c2c3d;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #ab4d77;
+            color: #fff;
+            font-size: 1.2em;
+        }
+
+        tr:nth-child(even) {
+            background-color: #3a3a4d;
+        }
+
+        tr:hover {
+            background-color: #505064;
+        }
+    </style>
 </head>
 <body>
-    <h1>Player Tier List</h1>
-    <ul id="tier-list"></ul>
+    <h1>Tier Leaderboard</h1>
+    <table id="leaderboard">
+        <thead>
+            <tr>
+                <th>Gamertag</th>
+                <th>Kills</th>
+                <th>Deaths</th>
+                <th>K/D</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
 
     <script>
-        fetch('tier_data.json')
-            .then(response => response.json())
-            .then(data => {
-                const tierListElement = document.getElementById('tier-list');
-                for (let player in data) {
-                    const playerData = data[player];
-                    const listItem = document.createElement('li');
-                    listItem.innerText = `${player}: ${playerData.tier} (${playerData.score})`;
-                    tierListElement.appendChild(listItem);
-                }
+        async function fetchLeaderboard() {
+            const response = await fetch('https://raw.githubusercontent.com/sakuravanilla/tier_data/main/tier_data.json');
+            const data = await response.json();
+            const tbody = document.querySelector("#leaderboard tbody");
+
+            const sorted = Object.entries(data).sort(([, a], [, b]) => b.kd - a.kd);
+
+            sorted.forEach(([player, stats]) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${player}</td>
+                    <td>${stats.kills}</td>
+                    <td>${stats.deaths}</td>
+                    <td>${stats.kd}</td>
+                `;
+                tbody.appendChild(row);
             });
+        }
+
+        fetchLeaderboard();
     </script>
 </body>
 </html>
