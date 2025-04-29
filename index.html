@@ -73,6 +73,35 @@
       background-color: #cc568b;
       color: #fff;
     }
+        .dropdown {
+      position: relative;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #333;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.4);
+      z-index: 1;
+      top: 120%;
+      left: 0;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .dropdown-content b {
+      display: block;
+      padding: 12px 16px;
+      text-align: left;
+      border: none;
+      border-bottom: 1px solid #444;
+      background: #333;
+      color: #f0f0f0;
+      font-size: 16px;
+    }
+    .dropdown-content b:hover {
+      background-color: #cc568b;
+      color: #fff;
+    }
     .dropdown:hover .dropdown-content {
       display: block;
     }
