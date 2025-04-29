@@ -1,1 +1,4 @@
-"PlayerOne": { "score": 1100, "Kills": 6, "deaths": 2, "kd": "kills / deaths", "Points": 100, "tier": "Ht1" }
+{
+    "PlayerOne": { "score": 1200, "tier": "Gold" },
+    "PlayerTwo": { "score": 1100, "tier": "Silver" }
+}
