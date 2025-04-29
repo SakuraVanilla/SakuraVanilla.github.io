@@ -32,6 +32,10 @@
       border-radius: 6px;
       font-size: 16px;
     }
+    input[readonly] {
+      background-color: #eee;
+      color: #555;
+    }
     button {
       margin-top: 20px;
       width: 100%;
@@ -47,17 +51,7 @@
     button:hover {
       background-color: #ff85c1;
     }
-    .discord-btn {
-      display: inline-block;
-      background-color: #5865F2;
-      color: white;
-      padding: 12px 20px;
-      border-radius: 8px;
-      font-size: 16px;
-      text-decoration: none;
-      margin-bottom: 20px;
-    }
-    a.back-home {
+    a {
       display: inline-block;
       margin-top: 30px;
       padding: 10px 20px;
@@ -72,12 +66,10 @@
 
   <h1>Contact SakuraVanilla</h1>
 
-  <div id="authSection">
-    <a class="discord-btn" id="loginBtn">Login with Discord</a>
-  </div>
+  <button onclick="loginWithDiscord()">Login with Discord</button>
 
-  <form id="contactForm" style="display: none;">
-    <label for="name">Ign</label>
+  <form id="contactForm" style="display:none;">
+    <label for="name">IGN</label>
     <input type="text" id="name" name="name" required>
 
     <label for="discord">Discord</label>
@@ -90,42 +82,41 @@
   </form>
 
   <br>
-  <a class="back-home" href="index.html">← Back to Home</a>
+  <a href="index.html">← Back to Home</a>
 
   <script>
-    const clientId = "YOUR_CLIENT_ID_HERE"; // Replace with your real client ID
-    const redirectUri = window.location.origin + window.location.pathname;
-    const loginBtn = document.getElementById('loginBtn');
-    const authSection = document.getElementById('authSection');
-    const contactForm = document.getElementById('contactForm');
+    const clientId = "1365521033729151078";
+    const redirectUri = "https://sakuravanilla.github.io/contact.html";
 
-    // Parse access token from URL hash
-    const urlParams = new URLSearchParams(window.location.hash.substring(1));
-    const accessToken = urlParams.get('access_token');
-
-    if (accessToken) {
-      fetch("https://discord.com/api/users/@me", {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.username) {
-          authSection.innerHTML = `<p>Logged in as <strong>${data.username}#${data.discriminator}</strong></p>`;
-          document.getElementById('discord').value = `${data.username}#${data.discriminator}`;
-          contactForm.style.display = 'inline-block';
-        }
-      })
-      .catch(error => {
-        console.error("Error fetching user:", error);
-      });
+    function loginWithDiscord() {
+      const authUrl = `https://discord.com/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&scope=identify`;
+      window.location.href = authUrl;
     }
 
-    loginBtn.addEventListener("click", () => {
-      const oauthUrl = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&scope=identify`;
-      window.location.href = oauthUrl;
-    });
+    function getAccessTokenFromUrl() {
+      const hash = window.location.hash;
+      const match = hash.match(/access_token=([^&]*)/);
+      return match ? match[1] : null;
+    }
+
+    async function fetchDiscordUser(token) {
+      const res = await fetch("https://discord.com/api/users/@me", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (!res.ok) throw new Error("Failed to fetch Discord user");
+      return await res.json();
+    }
+
+    const token = getAccessTokenFromUrl();
+    if (token) {
+      fetchDiscordUser(token).then(user => {
+        document.querySelector("form").style.display = "inline-block";
+        document.getElementById("discord").value = `${user.username}#${user.discriminator}`;
+        history.replaceState({}, document.title, window.location.pathname); // Clean URL
+      }).catch(() => {
+        alert("Failed to authenticate with Discord.");
+      });
+    }
 
     const form = document.getElementById('contactForm');
     form.addEventListener('submit', (e) => {
@@ -153,7 +144,7 @@
       };
 
       const payload = {
-        content: `🌸 **New Contact Form Submission!** 🌸\n\n**IGN:** ${ign}\n**Discord (verified):** ${discord}\n**Message:** ${message}`
+        content: `🌸 **New Contact Form Submission!** 🌸\n\n**IGN:** ${ign}\n**Discord:** ${discord}\n**Message:** ${message}`
       };
 
       xhr.send(JSON.stringify(payload));
