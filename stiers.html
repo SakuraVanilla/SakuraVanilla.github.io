@@ -68,7 +68,7 @@
 <script>
 async function fetchPlayerData() {
     try {
-        const response = await fetch('https://raw.githubusercontent.com/sakuravanilla/tier_data.json');
+        const response = await fetch('https://github.com/SakuraVanilla/SakuraVanilla.github.io/blob/main/tier_data.json');
         const data = await response.json();
 
         const players = Object.entries(data).map(([name, stats]) => ({
