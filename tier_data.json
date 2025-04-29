@@ -1,17 +1,5 @@
 {
-  "PlayerOne": {
-    "kills": 20,
-    "deaths": 5,
-    "kd": 4
-  },
-  "PlayerTwo": {
-    "kills": 10,
-    "deaths": 10,
-    "kd": 1
-  },
-  "PlayerThree": {
-    "kills": 15,
-    "deaths": 3,
-    "kd": 5
-  }
+  "Player1": { "kills": 10, "deaths": 2, "kd": 5 },
+  "Player2": { "kills": 8, "deaths": 4, "kd": 2 },
+  "Player3": { "kills": 15, "deaths": 5, "kd": 3 }
 }
