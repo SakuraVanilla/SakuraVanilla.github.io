@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <img class="logo" src="logo.png" alt="SakuraVanilla Logo">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rankings</title>
@@ -17,10 +16,17 @@
             width: 80%;
             margin: auto;
             padding-top: 30px;
+            text-align: center;
+        }
+        .logo {
+            max-width: 120px;
+            height: auto;
+            display: block;
+            margin: 0 auto 10px auto;
         }
         h1 {
-            text-align: center;
             color: #54082a;
+            margin-bottom: 20px;
         }
         .ranking-table {
             width: 100%;
@@ -47,6 +53,7 @@
 <body>
 
 <div class="container">
+    <img class="logo" src="logo.png" alt="SakuraVanilla Logo">
     <h1>Rankings</h1>
     <table class="ranking-table">
         <thead>
@@ -77,11 +84,10 @@ async function fetchPlayerData() {
             kills: stats.kills,
             deaths: stats.deaths,
             kd: stats.kd,
-            points: stats.points || 0, // Default to 0 if points not found
-            rank: getRankFromPoints(stats.kd)
+            points: stats.points || 0,
+            rank: getRankFromPoints(stats.points)
         }));
 
-        // Sort descending by points
         players.sort((a, b) => b.points - a.points);
 
         generateRankingTable(players);
@@ -127,7 +133,6 @@ function showPlayerProfile(playerName) {
     alert(`Showing profile for ${playerName}`);
 }
 
-// Start
 fetchPlayerData();
 </script>
 
