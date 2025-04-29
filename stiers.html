@@ -77,7 +77,7 @@ async function fetchPlayerData() {
             deaths: stats.deaths,
             kd: stats.kd,
             points: stats.points || 0, // Default to 0 if points not found
-            rank: getRankFromKD(stats.kd)
+            rank: getRankFromPoints(stats.kd)
         }));
 
         // Sort descending by points
@@ -89,13 +89,18 @@ async function fetchPlayerData() {
     }
 }
 
-function getRankFromKD(kd) {
-    if (kd >= 5) return "S+";
-    if (kd >= 4) return "S";
-    if (kd >= 3) return "A+";
-    if (kd >= 2) return "A";
-    if (kd >= 1) return "B+";
-    return "C";
+function getRankFromPoints(points) {
+    if (points >= 60) return "HT1";
+    if (points >= 45) return "LT1";
+    if (points >= 30) return "HT2";
+    if (points >= 20) return "LT2";
+    if (points >= 10) return "HT3";
+    if (points >= 6)  return "LT3";
+    if (points >= 4)  return "HT4";
+    if (points >= 3)  return "LT4";
+    if (points >= 2)  return "HT5";
+    if (points >= 1)  return "LT5";
+    return "Unranked";
 }
 
 function generateRankingTable(players) {
