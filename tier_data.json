@@ -10,5 +10,11 @@
     "deaths": 25,
     "kd": 4.0,
     "points": 1400
+   },
+  "PlayerTwo": {
+    "kills": 100,
+    "deaths": 25,
+    "kd": 4.0,
+    "points": 0
   }
 }
