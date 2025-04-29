@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact - SakuraVanilla</title>
+  <style>
+    body {
+      background-color: #ffffff;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+    form {
+      display: inline-block;
+      text-align: left;
+      background: #ffe6f0;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #555;
+    }
+    input, textarea {
+      width: 300px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    input[readonly] {
+      background-color: #eee;
+      color: #555;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background-color: #ff69b4;
+      border: none;
+      color: white;
+      font-size: 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #ff85c1;
+    }
+    a {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: #ff69b4;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Contact SakuraVanilla</h1>
+
+  <button onclick="loginWithDiscord()">Login with Discord</button>
+
+  <form id="contactForm" style="display:none;">
+    <label for="name">IGN</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="discord">Discord</label>
+    <input type="text" id="discord" name="discord" readonly required>
+
+    <label for="message">Messege:</label>
+    <textarea id="message" name="message" rows="5" required></textarea>
+
+    <label for="reason">Reason For:</label>
+    <textarea id="message" name="message" rows="5" required></textarea>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <br>
+  <a href="index.html">← Back to Home</a>
+
+  <script>
+    const clientId = "1365521033729151078";
+    const redirectUri = "https://sakuravanilla.github.io/contact.html";
+
+    function loginWithDiscord() {
+      const authUrl = `https://discord.com/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&scope=identify`;
+      window.location.href = authUrl;
+    }
+
+    function getAccessTokenFromUrl() {
+      const hash = window.location.hash;
+      const match = hash.match(/access_token=([^&]*)/);
+      return match ? match[1] : null;
+    }
+
+    async function fetchDiscordUser(token) {
+      const res = await fetch("https://discord.com/api/users/@me", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (!res.ok) throw new Error("Failed to fetch Discord user");
+      return await res.json();
+    }
+
+    const token = getAccessTokenFromUrl();
+    if (token) {
+      fetchDiscordUser(token).then(user => {
+        document.querySelector("form").style.display = "inline-block";
+        document.getElementById("discord").value = `${user.username}#${user.discriminator}`;
+        history.replaceState({}, document.title, window.location.pathname); // Clean URL
+      }).catch(() => {
+        alert("Failed to authenticate with Discord.");
+      });
+    }
+
+    const form = document.getElementById('contactForm');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const ign = document.getElementById('name').value;
+      const discord = document.getElementById('discord').value;
+      const message = document.getElementById('message').value;
+
+      const webhookURL = "https://discord.com/api/webhooks/1366056561973133454/x3ztNL1QZ8WG5Bf7fzxDeEwGsTUsPsAJlDXS-NBfc0vr48sXqKgEV4kJl9Mp6MzGmxDA";
+
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", webhookURL, true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            alert('Message sent! Thank you 🌸');
+            form.reset();
+          } else {
+            alert('Failed to send. Please try again.');
+          }
+        }
+      };
+
+      const payload = {
+        content: `🌸 **New Contact Form Submission!** 🌸\n\n**IGN:** ${ign}\n**Discord:** ${discord}\n**Message:** ${message} **Reason:** ${reason}`
+      };
+
+      xhr.send(JSON.stringify(payload));
+    });
+  </script>
+
+</body>
+</html>
