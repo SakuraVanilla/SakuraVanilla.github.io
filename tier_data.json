@@ -1,4 +1,17 @@
 {
-    "PlayerOne": { "score": 1200, "tier": "Gold" },
-    "PlayerTwo": { "score": 1100, "tier": "Silver" }
+  "PlayerOne": {
+    "kills": 20,
+    "deaths": 5,
+    "kd": 4
+  },
+  "PlayerTwo": {
+    "kills": 10,
+    "deaths": 10,
+    "kd": 1
+  },
+  "PlayerThree": {
+    "kills": 15,
+    "deaths": 3,
+    "kd": 5
+  }
 }
