@@ -1,32 +1,14 @@
 {
-    "PlayerOne": {
-        "kills": 120,
-        "deaths": 30,
-        "kd": 4.0,
-        "points": 1500
-    },
-    "PlayerTwo": {
-        "kills": 100,
-        "deaths": 25,
-        "kd": 4.0,
-        "points": 1400
-    },
-    "PlayerThree": {
-        "kills": 90,
-        "deaths": 30,
-        "kd": 3.0,
-        "points": 1300
-    },
-    "PlayerFour": {
-        "kills": 80,
-        "deaths": 40,
-        "kd": 2.0,
-        "points": 1000
-    },
-    "PlayerFive": {
-        "kills": 70,
-        "deaths": 70,
-        "kd": 1.0,
-        "points": 900
-    }
+  "PlayerOne": {
+    "kills": 120,
+    "deaths": 30,
+    "kd": 4.0,
+    "points": 1500
+  },
+  "PlayerTwo": {
+    "kills": 100,
+    "deaths": 25,
+    "kd": 4.0,
+    "points": 1400
+  }
 }
