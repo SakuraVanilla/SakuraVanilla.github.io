@@ -1,140 +1,269 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rankings</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #201c1c;
-            color: #420f26;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            width: 80%;
-            margin: auto;
-            padding-top: 30px;
-            text-align: center;
-        }
-        .logo {
-            max-width: 120px;
-            height: auto;
-            display: block;
-            margin: 0 auto 10px auto;
-        }
-        h1 {
-            color: #54082a;
-            margin-bottom: 20px;
-        }
-        .ranking-table {
-            width: 100%;
-            margin-top: 30px;
-            border-collapse: collapse;
-        }
-        .ranking-table th, .ranking-table td {
-            padding: 10px;
-            text-align: center;
-            border: 1px solid #7a1c46;
-        }
-        .ranking-table th {
-            background-color: #420f26;
-        }
-        .ranking-table tr:nth-child(even) {
-            background-color: #420f26;
-        }
-        .player-name {
-            color: #7a1c46;
-            cursor: pointer;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rankings</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background-color: #1e1e1e;
+      font-family: 'Arial', sans-serif;
+      color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background-color: #2c2c2c;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 50px;
+      border-bottom: 3px solid #cc568b;
+    }
+    .logo {
+      width: 150px;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+    }
+    nav a {
+      text-decoration: none;
+      color: #f0f0f0;
+      font-size: 18px;
+      padding: 10px 20px;
+      border: 2px solid #cc568b;
+      border-radius: 8px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    nav a:hover {
+      background-color: #cc568b;
+      color: #fff;
+    }
+    .dropdown {
+      position: relative;
+    }
+    .dropdown > a {
+      cursor: pointer;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #333;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.4);
+      z-index: 1;
+      top: 120%;
+      left: 0;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .dropdown-content a {
+      display: block;
+      padding: 12px 16px;
+      text-align: left;
+      border: none;
+      border-bottom: 1px solid #444;
+      background: #333;
+      color: #f0f0f0;
+      font-size: 16px;
+    }
+    .dropdown-content a:hover {
+      background-color: #cc568b;
+      color: #fff;
+    }
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    main {
+      flex: 1;
+      padding: 50px 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 42px;
+      color: #cc568b;
+      margin-bottom: 30px;
+    }
+
+    table {
+      width: 100%;
+      max-width: 1000px;
+      margin: auto;
+      border-collapse: collapse;
+      background-color: #2c2c2c;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    th, td {
+      padding: 12px 16px;
+      text-align: center;
+      border-bottom: 1px solid #444;
+    }
+
+    th {
+      background-color: #cc568b;
+      color: #fff;
+    }
+
+    tr:nth-child(even) {
+      background-color: #252525;
+    }
+
+    .player-name {
+      color: #f0f0f0;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .player-name:hover {
+      color: #cc568b;
+    }
+
+    img.rank-gif {
+      height: 28px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      color: #666;
+      background-color: #2c2c2c;
+      border-top: 3px solid #cc568b;
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
 
-<div class="container">
-    <img class="logo" src="logo.png" alt="SakuraVanilla Logo">
-    <h1>Rankings</h1>
-    <table class="ranking-table">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Player</th>
-                <th>Kills</th>
-                <th>Deaths</th>
-                <th>K/D</th>
-                <th>Points</th>
-                <th>Rank</th>
-            </tr>
-        </thead>
-        <tbody id="ranking-list">
-            <!-- Ranking list will be dynamically populated here -->
-        </tbody>
-    </table>
-</div>
+  <header>
+    <img class="logo" src="logo.png" alt="SakuraVanilla Logo" />
+    <nav>
+      <div class="dropdown">
+        <a>Appeal's</a>
+        <div class="dropdown-content">
+          <a href="bappeal.html">Ban Appeal</a>
+          <a href="sappeal.html">Suspend Appeal</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <a>Rankings</a>
+        <div class="dropdown-content">
+          <a href="stiers.html">Tiers</a>
+          <a href="subtiers.html">Sub Tiers</a>
+        </div>
+      </div>
+      <a href="https://discord.gg/PzxeWYZkz6">Discord</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
 
-<script>
-async function fetchPlayerData() {
-    try {
+  <main>
+    <h1>Rankings</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Player</th>
+          <th>Kills</th>
+          <th>Deaths</th>
+          <th>K/D</th>
+          <th>Points</th>
+          <th>Rank</th>
+        </tr>
+      </thead>
+      <tbody id="ranking-list">
+        <!-- Rows added by JavaScript -->
+      </tbody>
+    </table>
+  </main>
+
+  <footer>© 2025 SakuraVanilla</footer>
+
+  <script>
+    async function fetchPlayerData() {
+      try {
         const response = await fetch('tier_data.json');
         const data = await response.json();
 
         const players = Object.entries(data).map(([name, stats]) => ({
-            name,
-            kills: stats.kills,
-            deaths: stats.deaths,
-            kd: stats.kd,
-            points: stats.points || 0,
-            rank: getRankFromPoints(stats.points)
+          name,
+          kills: stats.kills,
+          deaths: stats.deaths,
+          kd: stats.kd,
+          points: stats.points || 0,
+          rank: getRankFromPoints(stats.points)
         }));
 
         players.sort((a, b) => b.points - a.points);
 
         generateRankingTable(players);
-    } catch (error) {
+      } catch (error) {
         console.error("Failed to load player data:", error);
+      }
     }
-}
 
-function getRankFromPoints(points) {
-    if (points >= 60) return "HT1";
-    if (points >= 45) return "LT1";
-    if (points >= 30) return "HT2";
-    if (points >= 20) return "LT2";
-    if (points >= 10) return "HT3";
-    if (points >= 6)  return "LT3";
-    if (points >= 4)  return "HT4";
-    if (points >= 3)  return "LT4";
-    if (points >= 2)  return "HT5";
-    if (points >= 1)  return "LT5";
-    return "Unranked";
-}
+    function getRankFromPoints(points) {
+      if (points >= 60) return "HT1";
+      if (points >= 45) return "LT1";
+      if (points >= 30) return "HT2";
+      if (points >= 20) return "LT2";
+      if (points >= 10) return "HT3";
+      if (points >= 6)  return "LT3";
+      if (points >= 4)  return "HT4";
+      if (points >= 3)  return "LT4";
+      if (points >= 2)  return "HT5";
+      if (points >= 1)  return "LT5";
+      return "Unranked";
+    }
 
-function generateRankingTable(players) {
-    const rankingList = document.getElementById('ranking-list');
-    rankingList.innerHTML = '';
+    function generateRankingTable(players) {
+      const rankingList = document.getElementById('ranking-list');
+      rankingList.innerHTML = '';
 
-    players.forEach((player, index) => {
+      players.forEach((player, index) => {
         const row = document.createElement('tr');
+
+        let rankDisplay;
+        if (index === 0) {
+          rankDisplay = `<img src="1-shimmer.svg" alt="#1" class="rank-gif">`;
+        } else if (index === 1) {
+          rankDisplay = `<img src="2-shimmer.svg" alt="#2" class="rank-gif">`;
+        } else if (index === 2) {
+          rankDisplay = `<img src="3-shimmer.svg" alt="#3" class="rank-gif">`;
+        } else {
+          rankDisplay = `${index + 1}`;
+        }
+
         row.innerHTML = `
-            <td>${index + 1}</td>
-            <td><span class="player-name" onclick="showPlayerProfile('${player.name}')">${player.name}</span></td>
-            <td>${player.kills}</td>
-            <td>${player.deaths}</td>
-            <td>${player.kd.toFixed(2)}</td>
-            <td>${player.points}</td>
-            <td>${player.rank}</td>
+          <td>${rankDisplay}</td>
+          <td><span class="player-name" onclick="showPlayerProfile('${player.name}')">${player.name}</span></td>
+          <td>${player.kills}</td>
+          <td>${player.deaths}</td>
+          <td>${player.kd.toFixed(2)}</td>
+          <td>${player.points}</td>
+          <td>${player.rank}</td>
         `;
         rankingList.appendChild(row);
-    });
-}
+      });
+    }
 
-function showPlayerProfile(playerName) {
-    alert(`Showing profile for ${playerName}`);
-}
+    function showPlayerProfile(playerName) {
+      alert(\`Showing profile for \${playerName}\`);
+    }
 
-fetchPlayerData();
-</script>
+    fetchPlayerData();
+  </script>
 
 </body>
 </html>
