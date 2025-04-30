@@ -66,20 +66,20 @@
 
   <h1>Contact SakuraVanilla</h1>
 
-  <button onclick="loginWithDiscord()">Login with Discord</button>
+  <button id="discordLogin" onclick="loginWithDiscord()">Login with Discord</button>
 
   <form id="contactForm" style="display:none;">
-    <label for="name">IGN</label>
+    <label for="name">IGN:</label>
     <input type="text" id="name" name="name" required>
 
-    <label for="discord">Discord</label>
+    <label for="discord">Discord:</label>
     <input type="text" id="discord" name="discord" readonly required>
 
-    <label for="message">Messege:</label>
+    <label for="message">Message:</label>
     <textarea id="message" name="message" rows="5" required></textarea>
 
     <label for="reason">Reason For:</label>
-    <textarea id="message" name="message" rows="5" required></textarea>
+    <textarea id="reason" name="reason" rows="5" required></textarea>
 
     <button type="submit">Submit</button>
   </form>
@@ -90,6 +90,7 @@
   <script>
     const clientId = "1365521033729151078";
     const redirectUri = "https://sakuravanilla.github.io/contact.html";
+    const discordLoginButton = document.getElementById('discordLogin');
 
     function loginWithDiscord() {
       const authUrl = `https://discord.com/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&scope=identify`;
@@ -114,6 +115,7 @@
     if (token) {
       fetchDiscordUser(token).then(user => {
         document.querySelector("form").style.display = "inline-block";
+        discordLoginButton.style.display = "none"; // Hide login button
         document.getElementById("discord").value = `${user.username}#${user.discriminator}`;
         history.replaceState({}, document.title, window.location.pathname); // Clean URL
       }).catch(() => {
@@ -128,6 +130,7 @@
       const ign = document.getElementById('name').value;
       const discord = document.getElementById('discord').value;
       const message = document.getElementById('message').value;
+      const reason = document.getElementById('reason').value;
 
       const webhookURL = "https://discord.com/api/webhooks/1366056561973133454/x3ztNL1QZ8WG5Bf7fzxDeEwGsTUsPsAJlDXS-NBfc0vr48sXqKgEV4kJl9Mp6MzGmxDA";
 
@@ -138,7 +141,7 @@
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
           if (xhr.status >= 200 && xhr.status < 300) {
-            alert('Message sent! Thank you 🌸');
+            alert('Appeal sent! Thank you 🌸');
             form.reset();
           } else {
             alert('Failed to send. Please try again.');
@@ -147,7 +150,7 @@
       };
 
       const payload = {
-        content: `🌸 **New Contact Form Submission!** 🌸\n\n**IGN:** ${ign}\n**Discord:** ${discord}\n**Message:** ${message} **Reason:** ${reason}`
+        content: `🌸 **New Contact Form Submission!** 🌸\n\n**IGN:** ${ign}\n**Discord:** ${discord}\n**Message:** ${message}\n**Reason:** ${reason}`
       };
 
       xhr.send(JSON.stringify(payload));
