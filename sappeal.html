@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>suspension appeal - SakuraVanilla</title>
+  <title>Suspension Appeal - SakuraVanilla</title>
   <style>
     body {
       background-color: #ffffff;
@@ -64,24 +64,24 @@
 </head>
 <body>
 
-  <h1>suspension appeal - SakuraVanilla</h1>
+  <h1>Suspension Appeal - SakuraVanilla</h1>
 
   <button id="discordLogin" onclick="loginWithDiscord()">Login with Discord</button>
 
   <form id="contactForm" style="display:none;">
-    <label for="name">IGN:</label>
+    <label for="name">IGN</label>
     <input type="text" id="name" name="name" required>
 
-    <label for="discord">Discord:</label>
+    <label for="discord">Discord</label>
     <input type="text" id="discord" name="discord" readonly required>
 
-    <label for="message">Message:</label>
+    <label for="message">Your Message</label>
     <textarea id="message" name="message" rows="5" required></textarea>
 
-    <label for="reason">Reason For:</label>
-    <textarea id="reason" name="reason" rows="5" required></textarea>
-
-    <button type="submit">Submit</button>
+    <label for="reason">Reason</label>
+    <textarea id="message" name="message" rows="5" required></textarea>
+    
+    <button type="submit">Send Appeal</button>
   </form>
 
   <br>
@@ -90,10 +90,9 @@
   <script>
     const clientId = "1365521033729151078";
     const redirectUri = "https://sakuravanilla.github.io/sappeal.html";
-    const discordLoginButton = document.getElementById('discordLogin');
 
     function loginWithDiscord() {
-      const authUrl = `https://discord.com/oauth2/authorize?client_id=1365521033729151078&response_type=code&redirect_uri=https%3A%2F%2Fsakuravanilla.github.io%2Fsappeal.html&scope=identify`;
+      const authUrl = `https://discord.com/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&scope=identify`;
       window.location.href = authUrl;
     }
 
@@ -115,8 +114,8 @@
     if (token) {
       fetchDiscordUser(token).then(user => {
         document.querySelector("form").style.display = "inline-block";
-        discordLoginButton.style.display = "none"; // Hide login button
         document.getElementById("discord").value = `${user.username}#${user.discriminator}`;
+        document.getElementById("discordLogin").style.display = "none"; // Hide login button
         history.replaceState({}, document.title, window.location.pathname); // Clean URL
       }).catch(() => {
         alert("Failed to authenticate with Discord.");
@@ -130,9 +129,9 @@
       const ign = document.getElementById('name').value;
       const discord = document.getElementById('discord').value;
       const message = document.getElementById('message').value;
-      const reason = document.getElementById('reason').value;
+      const reason = document.getElementById('reason').walue;
 
-      const webhookURL = "https://discord.com/api/webhooks/1366056561973133454/x3ztNL1QZ8WG5Bf7fzxDeEwGsTUsPsAJlDXS-NBfc0vr48sXqKgEV4kJl9Mp6MzGmxDA";
+      const webhookURL = "https://discord.com/oauth2/authorize?client_id=1365521033729151078&response_type=code&redirect_uri=https%3A%2F%2Fsakuravanilla.github.io%2Fsappeal.html&scope=identify";
 
       const xhr = new XMLHttpRequest();
       xhr.open("POST", webhookURL, true);
