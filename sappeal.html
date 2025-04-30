@@ -79,8 +79,8 @@
     <textarea id="message" name="message" rows="5" required></textarea>
 
     <label for="reason">Reason</label>
-    <textarea id="message" name="message" rows="5" required></textarea>
-    
+    <textarea id="reason" name="reason" rows="5" required></textarea>
+
     <button type="submit">Send Appeal</button>
   </form>
 
@@ -110,6 +110,7 @@
       return await res.json();
     }
 
+    // Check for Discord token and auto-authenticate if present
     const token = getAccessTokenFromUrl();
     if (token) {
       fetchDiscordUser(token).then(user => {
@@ -129,9 +130,9 @@
       const ign = document.getElementById('name').value;
       const discord = document.getElementById('discord').value;
       const message = document.getElementById('message').value;
-      const reason = document.getElementById('reason').walue;
+      const reason = document.getElementById('reason').value;
 
-      const webhookURL = "https://discord.com/oauth2/authorize?client_id=1365521033729151078&response_type=code&redirect_uri=https%3A%2F%2Fsakuravanilla.github.io%2Fsappeal.html&scope=identify";
+      const webhookURL = "https://discord.com/api/webhooks/1366056561973133454/x3ztNL1QZ8WG5Bf7fzxDeEwGsTUsPsAJlDXS-NBfc0vr48sXqKgEV4kJl9Mp6MzGmxDA";
 
       const xhr = new XMLHttpRequest();
       xhr.open("POST", webhookURL, true);
@@ -149,7 +150,7 @@
       };
 
       const payload = {
-        content: `🌸 **New Contact Form Submission!** 🌸\n\n**IGN:** ${ign}\n**Discord:** ${discord}\n**Message:** ${message}\n**Reason:** ${reason}`
+        content: `🌸 **New Suspension Appeal Submission!** 🌸\n\n**IGN:** ${ign}\n**Discord:** ${discord}\n**Message:** ${message}\n**Reason:** ${reason}`
       };
 
       xhr.send(JSON.stringify(payload));
