@@ -66,7 +66,7 @@
 
   <h1>Contact SakuraVanilla</h1>
 
-  <button onclick="loginWithDiscord()">Login with Discord</button>
+  <button id="discordLogin" onclick="loginWithDiscord()">Login with Discord</button>
 
   <form id="contactForm" style="display:none;">
     <label for="name">IGN</label>
@@ -112,6 +112,7 @@
       fetchDiscordUser(token).then(user => {
         document.querySelector("form").style.display = "inline-block";
         document.getElementById("discord").value = `${user.username}#${user.discriminator}`;
+        document.getElementById("discordLogin").style.display = "none"; // Hide login button
         history.replaceState({}, document.title, window.location.pathname); // Clean URL
       }).catch(() => {
         alert("Failed to authenticate with Discord.");
