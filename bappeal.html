@@ -1,109 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Ban Appeal - SakuraVanilla</title>
   <style>
     body {
-      margin: 0;
-      background: #1e1e1e;
-      font-family: 'Segoe UI', sans-serif;
+      background-color: #1e1e1e;
+      font-family: 'Arial', sans-serif;
       color: #f0f0f0;
-    }
-    header {
-      background: #2c2c2c;
-      padding: 20px 50px;
-      border-bottom: 3px solid #cc568b;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    .logo { width: 120px; }
-    nav { display: flex; gap: 15px; align-items: center; flex-wrap: wrap; }
-    .dropdown { position: relative; }
-    .dropbtn {
-      background: transparent;
-      color: #fff;
-      border: 2px solid #cc568b;
-      padding: 10px 16px;
-      font-size: 15px;
-      cursor: pointer;
-      border-radius: 10px;
-      transition: 0.3s;
-    }
-    .dropbtn:hover { background: #cc568b; }
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #2c2c2c;
-      min-width: 160px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.4);
-      z-index: 1;
-      border: 1px solid #cc568b;
-      border-radius: 10px;
-    }
-    .dropdown-content a {
-      color: #fff;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-      border-bottom: 1px solid #444;
-    }
-    .dropdown-content a:last-child { border-bottom: none; }
-    .dropdown-content a:hover { background-color: #cc568b; }
-    .dropdown:hover .dropdown-content { display: block; }
-    main {
-      padding: 60px 20px;
       text-align: center;
+      margin: 0;
+      padding: 50px 20px;
     }
-    iframe {
-      width: 100%;
-      max-width: 800px;
-      height: 700px;
-      border: none;
-      border-radius: 10px;
-      box-shadow: 0 0 20px #cc568b55;
+    h1 { color: #cc568b; margin-bottom: 30px; }
+    form {
+      display: inline-block; text-align: left;
+      background: #2c2c2c; padding: 30px;
+      border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.4);
     }
-    footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 14px;
-      background-color: #1c1c1c;
-      border-top: 2px solid #cc568b;
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    input, textarea {
+      width: 300px; padding: 10px;
+      background-color: #1e1e1e; color: #f0f0f0;
+      border: 1px solid #444; border-radius: 6px;
     }
+    input[readonly] { background-color: #333; color: #ccc; }
+    button {
+      margin-top: 20px; width: 100%; padding: 12px;
+      background-color: #cc568b; border: none; color: white;
+      font-size: 18px; border-radius: 8px; cursor: pointer;
+    }
+    button:hover { background-color: #e675a3; }
+    #discordLogin, a {
+      background-color: #cc568b; color: white;
+      padding: 12px 30px; border-radius: 8px;
+      text-decoration: none; display: inline-block;
+      margin-bottom: 30px; margin-top: 20px;
+    }
+    #discordLogin:hover, a:hover { background-color: #e675a3; }
+    footer { margin-top: 60px; color: #888; font-size: 14px; }
   </style>
 </head>
 <body>
-  <header>
-    <img src="logo.png" alt="Logo" class="logo" />
-    <nav>
-      <div class="dropdown">
-        <button class="dropbtn">Appeals</button>
-        <div class="dropdown-content">
-          <a href="bappeal.html">Ban</a>
-          <a href="sappeal.html">Suspension</a>
-        </div>
-      </div>
-      <div class="dropdown">
-        <button class="dropbtn">Tiers</button>
-        <div class="dropdown-content">
-          <a href="stiers.html">Tiers</a>
-          <a href="subtiers.html">Sub tiers</a>
-        </div>
-      </div>
-      <a class="dropbtn" href="https://discord.gg/PzxeWYZkz6" target="_blank">Discord</a>
-      <a class="dropbtn" href="contact.html">Contact</a>
-    </nav>
-  </header>
+  <h1>Ban Appeal</h1>
+  <button id="discordLogin" onclick="loginWithDiscord()">Login with Discord</button>
+  <form id="appealForm" style="display:none;">
+    <label for="name">IGN</label>
+    <input type="text" id="name" required>
+    <label for="discord">Discord</label>
+    <input type="text" id="discord" readonly required>
+    <label for="reason">Reason for Ban</label>
+    <input type="text" id="reason" required>
+    <label for="message">Appeal Message</label>
+    <textarea id="message" rows="5" required></textarea>
+    <button type="submit">Send Appeal</button>
+  </form>
+  <a href="index.html">← Back to Appeals</a>
+  <footer>© 2025 SakuraVanilla</footer>
+  <script>
+    const clientId = "1365521033729151078";
+    const redirectUri = "https://sakuravanilla.github.io/bappeal.html";
+    const webhookURL = "https://l.webhook.party/hook/wpbTl4oOjKcrZHIm1wG0PcooyrRsrt8oc1P6Cp3qQ2qI%2Bz03rNbjTWlAz0bfLrPW2UmLzYUh21N9o5%2B%2FoCBdQcf94CokF9DDWcqY67d%2Bpk0YBEDMx1cdHMsA2Ys9Qzi9q3jRl5%2FEmGFVURZVtWhtH%2BJ1WKeW6Cb%2FobiHlsCswe7LN4Cr%2Bd0%2BywvzKB%2F4F1qBUYkhFKWHwl8xNugnbQUk%2FYXW0Dw7xvBAZctoRi7RK5p2UZ0bqmIVPDDk6BOwf4OyqEOaS%2BbWm1sZT70n0RJfPU3WRGZaZAsCvIiBUhRInYDFjlI8fshm8SGDO3Ra127169T82widVB9Yvc%2BUFTX12BhYBMXfAVPQtQY%2FOd5mAimYJ901ljpdS8RURMUSDvQWB0Og%2BUqJ%2FD8%3D/vX4GtaKYi09FLJ%2Fv";
 
-  <main>
-    <h1>Ban Appeal Form</h1>
-    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeBanAppealFormHere/viewform?embedded=true">Loading…</iframe>
-  </main>
+    function loginWithDiscord() {
+      const authUrl = `https://discord.com/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&scope=identify`;
+      window.location.href = authUrl;
+    }
 
-  <footer>
-    &copy; 2025 SakuraVanilla. All rights reserved.
-  </footer>
+    function getToken() {
+      const match = window.location.hash.match(/access_token=([^&]*)/);
+      return match ? match[1] : null;
+    }
+
+    async function fetchDiscordUser(token) {
+      const res = await fetch("https://discord.com/api/users/@me", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (!res.ok) throw new Error();
+      return await res.json();
+    }
+
+    const token = getToken();
+    if (token) {
+      fetchDiscordUser(token).then(user => {
+        document.getElementById("appealForm").style.display = "inline-block";
+        document.getElementById("discord").value = `${user.username}#${user.discriminator}`;
+        document.getElementById("discordLogin").style.display = "none";
+        history.replaceState({}, document.title, window.location.pathname);
+      }).catch(() => alert("Discord authentication failed"));
+    }
+
+    document.getElementById("appealForm").addEventListener("submit", e => {
+      e.preventDefault();
+      const payload = {
+        content: `🌸 **New Ban Appeal Submission!** 🌸\n\n**IGN:** ${name.value}\n**Discord:** ${discord.value}\n**Message:** ${message.value}\n**Reason:** ${reason.value}`
+      };
+      fetch(webhookURL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      }).then(() => alert("Appeal sent! Thank you 🌸"))
+        .catch(() => alert("Error sending appeal."));
+    });
+  </script>
 </body>
 </html>
