@@ -13,41 +13,67 @@
     h1 {
       text-align: center;
       color: #cc568b;
+      margin-bottom: 30px;
     }
     .tier {
       background-color: #2c2c2c;
-      margin: 20px auto;
+      margin: 15px auto;
       padding: 20px;
       border-radius: 12px;
       width: 80%;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
     .tier h2 {
-      margin-top: 0;
+      margin: 0 0 10px;
       color: #e675a3;
+    }
+    .tier p {
+      margin: 4px 0;
+      font-size: 15px;
+    }
+    .rank {
+      font-weight: bold;
+      font-size: 20px;
+      color: #ffd700;
     }
   </style>
 </head>
 <body>
-  <h1>Tier Information</h1>
-  <div id="tiersContainer">Loading tiers...</div>
+  <h1>Top Players</h1>
+  <div id="tiersContainer">Loading player tiers...</div>
 
   <script>
     fetch('tier_data.json')
       .then(res => res.json())
       .then(data => {
+        const entries = Object.entries(data)
+          .filter(([_, stats]) => stats.points > 0)
+          .sort((a, b) => b[1].points - a[1].points);
+
         const container = document.getElementById('tiersContainer');
         container.innerHTML = '';
-        data.tiers.forEach(tier => {
+
+        entries.forEach(([name, stats], index) => {
           const div = document.createElement('div');
           div.className = 'tier';
-          div.innerHTML = `<h2>${tier.name}</h2><p>${tier.description}</p>`;
+          div.innerHTML = `
+            <div class="rank">#${index + 1}</div>
+            <h2>${name}</h2>
+            <p><strong>Kills:</strong> ${stats.kills}</p>
+            <p><strong>Deaths:</strong> ${stats.deaths}</p>
+            <p><strong>K/D:</strong> ${stats.kd}</p>
+            <p><strong>Points:</strong> ${stats.points}</p>
+          `;
           container.appendChild(div);
         });
+
+        if (entries.length === 0) {
+          container.textContent = 'No ranked players to show.';
+        }
       })
       .catch(err => {
-        document.getElementById('tiersContainer').textContent = 'Failed to load tier data.';
         console.error(err);
+        document.getElementById('tiersContainer').textContent = 'Failed to load tier data.';
       });
   </script>
 </body>
