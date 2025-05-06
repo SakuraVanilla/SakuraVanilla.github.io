@@ -1,140 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rankings</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #201c1c;
-            color: #420f26;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            width: 80%;
-            margin: auto;
-            padding-top: 30px;
-            text-align: center;
-        }
-        .logo {
-            max-width: 120px;
-            height: auto;
-            display: block;
-            margin: 0 auto 10px auto;
-        }
-        h1 {
-            color: #54082a;
-            margin-bottom: 20px;
-        }
-        .ranking-table {
-            width: 100%;
-            margin-top: 30px;
-            border-collapse: collapse;
-        }
-        .ranking-table th, .ranking-table td {
-            padding: 10px;
-            text-align: center;
-            border: 1px solid #7a1c46;
-        }
-        .ranking-table th {
-            background-color: #420f26;
-        }
-        .ranking-table tr:nth-child(even) {
-            background-color: #420f26;
-        }
-        .player-name {
-            color: #7a1c46;
-            cursor: pointer;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Tiers - SakuraVanilla</title>
+  <style>
+    body {
+      margin: 0;
+      background: #1e1e1e;
+      font-family: 'Segoe UI', sans-serif;
+      color: #f0f0f0;
+    }
+    header {
+      background: #2c2c2c;
+      padding: 20px 50px;
+      border-bottom: 3px solid #cc568b;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .logo { width: 120px; }
+    nav { display: flex; gap: 15px; align-items: center; flex-wrap: wrap; }
+    .dropdown { position: relative; }
+    .dropbtn {
+      background: transparent;
+      color: #fff;
+      border: 2px solid #cc568b;
+      padding: 10px 16px;
+      font-size: 15px;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: 0.3s;
+    }
+    .dropbtn:hover { background: #cc568b; }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #2c2c2c;
+      min-width: 160px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+      z-index: 1;
+      border: 1px solid #cc568b;
+      border-radius: 10px;
+    }
+    .dropdown-content a {
+      color: #fff;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      border-bottom: 1px solid #444;
+    }
+    .dropdown-content a:last-child { border-bottom: none; }
+    .dropdown-content a:hover { background-color: #cc568b; }
+    .dropdown:hover .dropdown-content { display: block; }
+    main {
+      padding: 60px 20px;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      background-color: #1c1c1c;
+      border-top: 2px solid #cc568b;
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <img src="logo.png" alt="Logo" class="logo" />
+    <nav>
+      <div class="dropdown">
+        <button class="dropbtn">Appeals</button>
+        <div class="dropdown-content">
+          <a href="bappeal.html">Ban</a>
+          <a href="sappeal.html">Suspension</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">Tiers</button>
+        <div class="dropdown-content">
+          <a href="stiers.html">Tiers</a>
+          <a href="subtiers.html">Sub tiers</a>
+        </div>
+      </div>
+      <a class="dropbtn" href="https://discord.gg/PzxeWYZkz6" target="_blank">Discord</a>
+      <a class="dropbtn" href="contact.html">Contact</a>
+    </nav>
+  </header>
 
-<div class="container">
-    <img class="logo" src="logo.png" alt="SakuraVanilla Logo">
-    <h1>Rankings</h1>
-    <table class="ranking-table">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Player</th>
-                <th>Kills</th>
-                <th>Deaths</th>
-                <th>K/D</th>
-                <th>Points</th>
-                <th>Rank</th>
-            </tr>
-        </thead>
-        <tbody id="ranking-list">
-            <!-- Ranking list will be dynamically populated here -->
-        </tbody>
-    </table>
-</div>
+  <main>
+    <h1>Tiers</h1>
+    <p>This page outlines the support tiers for SakuraVanilla. Add your actual tier content here.</p>
+  </main>
 
-<script>
-async function fetchPlayerData() {
-    try {
-        const response = await fetch('tier_data.json');
-        const data = await response.json();
-
-        const players = Object.entries(data).map(([name, stats]) => ({
-            name,
-            kills: stats.kills,
-            deaths: stats.deaths,
-            kd: stats.kd,
-            points: stats.points || 0,
-            rank: getRankFromPoints(stats.points)
-        }));
-
-        players.sort((a, b) => b.points - a.points);
-
-        generateRankingTable(players);
-    } catch (error) {
-        console.error("Failed to load player data:", error);
-    }
-}
-
-function getRankFromPoints(points) {
-    if (points >= 60) return "HT1";
-    if (points >= 45) return "LT1";
-    if (points >= 30) return "HT2";
-    if (points >= 20) return "LT2";
-    if (points >= 10) return "HT3";
-    if (points >= 6)  return "LT3";
-    if (points >= 4)  return "HT4";
-    if (points >= 3)  return "LT4";
-    if (points >= 2)  return "HT5";
-    if (points >= 1)  return "LT5";
-    return "Unranked";
-}
-
-function generateRankingTable(players) {
-    const rankingList = document.getElementById('ranking-list');
-    rankingList.innerHTML = '';
-
-    players.forEach((player, index) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${index + 1}</td>
-            <td><span class="player-name" onclick="showPlayerProfile('${player.name}')">${player.name}</span></td>
-            <td>${player.kills}</td>
-            <td>${player.deaths}</td>
-            <td>${player.kd.toFixed(2)}</td>
-            <td>${player.points}</td>
-            <td>${player.rank}</td>
-        `;
-        rankingList.appendChild(row);
-    });
-}
-
-function showPlayerProfile(playerName) {
-    alert(`Showing profile for ${playerName}`);
-}
-
-fetchPlayerData();
-</script>
-
+  <footer>
+    &copy; 2025 SakuraVanilla. All rights reserved.
+  </footer>
 </body>
 </html>
