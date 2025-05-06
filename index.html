@@ -1,50 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SakuraVanilla</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>SakuraVanilla's Website</title>
   <style>
-    body {
-      background: url('tree.gif') center center / cover no-repeat fixed;
-      font-family: 'Press Start 2P', monospace;
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background-color: #1e1e1e;
+      font-family: 'Arial', sans-serif;
+      color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
     }
-    .glow {
-      text-shadow: 0 0 10px #ff66aa, 0 0 20px #ff66aa;
+    header {
+      background-color: #2c2c2c;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 50px;
+      border-bottom: 3px solid #cc568b;
+    }
+    .logo {
+      width: 150px;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+    }
+    nav a {
+      text-decoration: none;
+      color: #f0f0f0;
+      font-size: 18px;
+      padding: 10px 20px;
+      border: 2px solid #cc568b;
+      border-radius: 8px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    nav a:hover {
+      background-color: #cc568b;
+      color: #fff;
+    }
+    .dropdown {
+      position: relative;
+    }
+    .dropdown > a {
+      cursor: pointer;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #333;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.4);
+      z-index: 1;
+      top: 120%;
+      left: 0;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .dropdown-content a {
+      display: block;
+      padding: 12px 16px;
+      text-align: left;
+      border: none;
+      border-bottom: 1px solid #444;
+      background: #333;
+      color: #f0f0f0;
+      font-size: 16px;
+    }
+    .dropdown-content a:hover {
+      background-color: #cc568b;
+      color: #fff;
+    }
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+    main {
+      text-align: center;
+      padding: 50px 20px;
+      flex: 1;
+    }
+    h1 {
+      font-size: 42px;
+      color: #cc568b;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 18px;
+      max-width: 800px;
+      margin: 0 auto 40px auto;
+      line-height: 1.6;
+      color: #ccc;
+    }
+    hr {
+      border: 0;
+      height: 2px;
+      background: #cc568b;
+      margin: 50px auto;
+      width: 60%;
+      border-radius: 2px;
+    }
+    .quote-carousel {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+    .arrow {
+      font-size: 40px;
+      color: #cc568b;
+      cursor: pointer;
+      user-select: none;
+    }
+    .quote-text {
+      max-width: 600px;
+      font-size: 24px;
+      color: #f0f0f0;
+      padding: 0 20px;
+      text-align: center;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      color: #666;
+      background-color: #2c2c2c;
+      border-top: 3px solid #cc568b;
+      width: 100%;
     }
   </style>
 </head>
-<body class="text-white text-center p-10 bg-black bg-opacity-70">
-  <header class="bg-pink-600 bg-opacity-90 p-4 rounded-lg shadow-lg mb-8">
-    <h1 class="text-4xl glow">🌸 SakuraVanilla</h1>
-    <p class="text-sm mt-2">Minecraft Survival Server | Java & Bedrock Compatible</p>
+<body>
+
+  <header>
+    <img class="logo" src="logo.png" alt="SakuraVanilla Logo">
+    <nav>
+      <div class="dropdown">
+        <a>Appeal's</a>
+        <div class="dropdown-content">
+          <a href="bappeal.html">Ban Appeal</a>
+          <a href="sappeal.html">Suspend Appeal</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <a>Rankings</a>
+        <div class="dropdown-content">
+          <a href="stiers.html">Tiers</a>
+          <a href="subtiers.html">Sub Tiers</a>
+        </div>
+      </div>
+      <a href="https://discord.gg/PzxeWYZkz6">Discord</a>
+      <a href="contact.html">Contact</a>
+    </nav>
   </header>
 
-  <main class="space-y-8">
-    <section>
-      <h2 class="text-xl text-pink-400">✨ Features</h2>
-      <ul class="mt-4 space-y-2 text-lg">
-        <li>✔️ No Pay-to-Win</li>
-        <li>✔️ Friendly Community</li>
-        <li>✔️ Active Events & Staff</li>
-      </ul>
-    </section>
+  <main>
+    <h1>Welcome to Sakura Vanilla</h1>
 
-    <section>
-      <h2 class="text-xl text-pink-400 mt-10">🔗 Join Us</h2>
-      <p class="mt-2">IP: <strong>play.sakuravanilla.net</strong></p>
-      <p>Version: 1.20+</p>
-    </section>
+    <p>Welcome to our Sakura Vanilla home page! You can check out our tierlists in the top right by clicking on Rankings and selecting Tiers or Subtiers for vanilla MCBE WorldPvP. This project is made by our loving Sakura Vanilla team and we're always looking for more people to join us!</p>
 
-    <section class="mt-10">
-      <a href="https://discord.gg/yourinvite" target="_blank" class="bg-pink-500 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 shadow-lg">💬 Join Discord</a>
-    </section>
+    <hr>
+
+    <div class="quote-carousel">
+      <div class="arrow" onclick="previousQuote()">&#8592;</div>
+      <div class="quote-text" id="quoteText">"Just hold and click" - Alex13217</div>
+      <div class="arrow" onclick="nextQuote()">&#8594;</div>
+    </div>
   </main>
 
-  <footer class="mt-20 text-sm text-pink-300">
-    © 2025 SakuraVanilla. Not affiliated with Mojang.
-  </footer>
+  <footer>© 2025 SakuraVanilla</footer>
+
+  <script>
+    const quotes = [
+      '"Just hold w and click" - Alex13217',
+      '"We actually have to partner with you" - MrPotato',
+      '"Kid your macroing.." - Kingcash',
+      '"Ive always wanted a MCBE Vanilla testing server" - Liam The Pro',
+      '"Wait what the fuck" - Cornballape'
+    ];
+    let currentQuote = 0;
+
+    function showQuote() {
+      document.getElementById('quoteText').innerText = quotes[currentQuote];
+    }
+
+    function nextQuote() {
+      currentQuote = (currentQuote + 1) % quotes.length;
+      showQuote();
+    }
+
+    function previousQuote() {
+      currentQuote = (currentQuote - 1 + quotes.length) % quotes.length;
+      showQuote();
+    }
+  </script>
+
 </body>
 </html>
