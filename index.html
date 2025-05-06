@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Appeals - SakuraVanilla</title>
+  <title>SakuraVanilla's Website</title>
   <style>
     body {
       margin: 0;
@@ -10,7 +10,6 @@
       font-family: 'Segoe UI', sans-serif;
       color: #f0f0f0;
     }
-
     header {
       background: #2c2c2c;
       padding: 20px 50px;
@@ -18,37 +17,33 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
     }
-
     .logo {
       width: 120px;
     }
-
     nav {
       display: flex;
-      gap: 20px;
+      gap: 15px;
       align-items: center;
+      flex-wrap: wrap;
     }
-
     .dropdown {
       position: relative;
     }
-
     .dropbtn {
       background: transparent;
       color: #fff;
       border: 2px solid #cc568b;
       padding: 10px 16px;
-      font-size: 16px;
+      font-size: 15px;
       cursor: pointer;
       border-radius: 10px;
       transition: 0.3s;
     }
-
     .dropbtn:hover {
       background: #cc568b;
     }
-
     .dropdown-content {
       display: none;
       position: absolute;
@@ -59,7 +54,6 @@
       border: 1px solid #cc568b;
       border-radius: 10px;
     }
-
     .dropdown-content a {
       color: #fff;
       padding: 12px 16px;
@@ -67,39 +61,29 @@
       display: block;
       border-bottom: 1px solid #444;
     }
-
     .dropdown-content a:last-child {
       border-bottom: none;
     }
-
     .dropdown-content a:hover {
       background-color: #cc568b;
     }
-
     .dropdown:hover .dropdown-content {
       display: block;
     }
-
     main {
       padding: 60px 20px;
       text-align: center;
     }
-
     h1 {
       font-size: 2.6rem;
       color: #ff82b2;
       margin-bottom: 20px;
     }
-
-    iframe {
-      width: 100%;
-      max-width: 800px;
-      height: 600px;
-      border: none;
-      border-radius: 12px;
-      box-shadow: 0 0 20px #cc568b55;
+    p {
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto 30px;
     }
-
     .quote-box {
       font-style: italic;
       margin-top: 40px;
@@ -108,7 +92,6 @@
       height: 40px;
       transition: opacity 0.5s ease;
     }
-
     footer {
       text-align: center;
       padding: 20px;
@@ -129,23 +112,21 @@
           <a href="sappeal.html">Suspension</a>
         </div>
       </div>
-
       <div class="dropdown">
-        <button class="dropbtn">Support</button>
+        <button class="dropbtn">Tiers</button>
         <div class="dropdown-content">
           <a href="stiers.html">Tiers</a>
           <a href="subtiers.html">Sub tiers</a>
         </div>
       </div>
-
+      <a class="dropbtn" href="https://discord.gg/PzxeWYZkz6" target="_blank">Discord</a>
       <a class="dropbtn" href="contact.html">Contact</a>
     </nav>
   </header>
 
   <main>
-    <h1>Appeals Portal</h1>
-    <p>Use this space to access your Ban or Suspension appeal forms. Choose the option above that best fits your case.</p>
-
+    <h1>Welcome to SakuraVanilla</h1>
+    <p>Your favorite chill space for community, Minecraft, and more. Feel the vibe, share the fun, and explore everything we have to offer.</p>
     <div class="quote-box" id="quoteBox">Loading quote...</div>
   </main>
 
@@ -161,10 +142,8 @@
       '"Ive always wanted a MCBE Vanilla testing server" - Liam The Pro',
       '"Wait what the fuck" - Cornballape'
     ];
-
     let currentQuote = 0;
     const quoteBox = document.getElementById("quoteBox");
-
     function showNextQuote() {
       quoteBox.style.opacity = 0;
       setTimeout(() => {
@@ -173,7 +152,6 @@
         currentQuote = (currentQuote + 1) % quotes.length;
       }, 300);
     }
-
     showNextQuote();
     setInterval(showNextQuote, 4000);
   </script>
