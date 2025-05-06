@@ -1,100 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Tiers - SakuraVanilla</title>
   <style>
     body {
-      margin: 0;
-      background: #1e1e1e;
-      font-family: 'Segoe UI', sans-serif;
+      background-color: #1e1e1e;
+      font-family: 'Arial', sans-serif;
       color: #f0f0f0;
-    }
-    header {
-      background: #2c2c2c;
-      padding: 20px 50px;
-      border-bottom: 3px solid #cc568b;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    .logo { width: 120px; }
-    nav { display: flex; gap: 15px; align-items: center; flex-wrap: wrap; }
-    .dropdown { position: relative; }
-    .dropbtn {
-      background: transparent;
-      color: #fff;
-      border: 2px solid #cc568b;
-      padding: 10px 16px;
-      font-size: 15px;
-      cursor: pointer;
-      border-radius: 10px;
-      transition: 0.3s;
-    }
-    .dropbtn:hover { background: #cc568b; }
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #2c2c2c;
-      min-width: 160px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.4);
-      z-index: 1;
-      border: 1px solid #cc568b;
-      border-radius: 10px;
-    }
-    .dropdown-content a {
-      color: #fff;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-      border-bottom: 1px solid #444;
-    }
-    .dropdown-content a:last-child { border-bottom: none; }
-    .dropdown-content a:hover { background-color: #cc568b; }
-    .dropdown:hover .dropdown-content { display: block; }
-    main {
-      padding: 60px 20px;
-    }
-    footer {
-      text-align: center;
       padding: 20px;
-      font-size: 14px;
-      background-color: #1c1c1c;
-      border-top: 2px solid #cc568b;
+    }
+    h1 {
+      text-align: center;
+      color: #cc568b;
+    }
+    .tier {
+      background-color: #2c2c2c;
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 12px;
+      width: 80%;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .tier h2 {
+      margin-top: 0;
+      color: #e675a3;
     }
   </style>
 </head>
 <body>
-  <header>
-    <img src="logo.png" alt="Logo" class="logo" />
-    <nav>
-      <div class="dropdown">
-        <button class="dropbtn">Appeals</button>
-        <div class="dropdown-content">
-          <a href="bappeal.html">Ban</a>
-          <a href="sappeal.html">Suspension</a>
-        </div>
-      </div>
-      <div class="dropdown">
-        <button class="dropbtn">Tiers</button>
-        <div class="dropdown-content">
-          <a href="stiers.html">Tiers</a>
-          <a href="subtiers.html">Sub tiers</a>
-        </div>
-      </div>
-      <a class="dropbtn" href="https://discord.gg/PzxeWYZkz6" target="_blank">Discord</a>
-      <a class="dropbtn" href="contact.html">Contact</a>
-    </nav>
-  </header>
+  <h1>Tier Information</h1>
+  <div id="tiersContainer">Loading tiers...</div>
 
-  <main>
-    <h1>Tiers</h1>
-    <p>This page outlines the support tiers for SakuraVanilla. Add your actual tier content here.</p>
-  </main>
-
-  <footer>
-    &copy; 2025 SakuraVanilla. All rights reserved.
-  </footer>
+  <script>
+    fetch('tier_data.json')
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById('tiersContainer');
+        container.innerHTML = '';
+        data.tiers.forEach(tier => {
+          const div = document.createElement('div');
+          div.className = 'tier';
+          div.innerHTML = `<h2>${tier.name}</h2><p>${tier.description}</p>`;
+          container.appendChild(div);
+        });
+      })
+      .catch(err => {
+        document.getElementById('tiersContainer').textContent = 'Failed to load tier data.';
+        console.error(err);
+      });
+  </script>
 </body>
 </html>
