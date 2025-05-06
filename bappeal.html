@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Ban Appeal</title>
+  <meta charset="UTF-8" />
+  <title>Ban Appeal - SakuraVanilla</title>
   <style>
     body {
       margin: 0;
@@ -10,7 +10,6 @@
       font-family: 'Segoe UI', sans-serif;
       color: #f0f0f0;
     }
-
     header {
       background: #2c2c2c;
       padding: 20px 50px;
@@ -18,60 +17,93 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
     }
-
-    .logo {
-      width: 120px;
-    }
-
-    nav a {
-      text-decoration: none;
+    .logo { width: 120px; }
+    nav { display: flex; gap: 15px; align-items: center; flex-wrap: wrap; }
+    .dropdown { position: relative; }
+    .dropbtn {
+      background: transparent;
       color: #fff;
-      padding: 10px 15px;
-      border-radius: 10px;
       border: 2px solid #cc568b;
-      margin-left: 10px;
+      padding: 10px 16px;
+      font-size: 15px;
+      cursor: pointer;
+      border-radius: 10px;
       transition: 0.3s;
     }
-
-    nav a:hover {
-      background: #cc568b;
-      color: white;
+    .dropbtn:hover { background: #cc568b; }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #2c2c2c;
+      min-width: 160px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+      z-index: 1;
+      border: 1px solid #cc568b;
+      border-radius: 10px;
     }
-
+    .dropdown-content a {
+      color: #fff;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      border-bottom: 1px solid #444;
+    }
+    .dropdown-content a:last-child { border-bottom: none; }
+    .dropdown-content a:hover { background-color: #cc568b; }
+    .dropdown:hover .dropdown-content { display: block; }
     main {
-      padding: 40px;
+      padding: 60px 20px;
       text-align: center;
     }
-
-    h1 {
-      color: #ff82b2;
-      font-size: 2.4rem;
-    }
-
     iframe {
       width: 100%;
       max-width: 800px;
-      height: 600px;
+      height: 700px;
       border: none;
-      border-radius: 12px;
+      border-radius: 10px;
       box-shadow: 0 0 20px #cc568b55;
-      margin-top: 20px;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      background-color: #1c1c1c;
+      border-top: 2px solid #cc568b;
     }
   </style>
 </head>
 <body>
   <header>
-    <img src="logo.png" class="logo" alt="Logo">
+    <img src="logo.png" alt="Logo" class="logo" />
     <nav>
-      <a href="index.html">Home</a>
-      <a href="server.html">Server</a>
-      <a href="discord.html">Discord</a>
+      <div class="dropdown">
+        <button class="dropbtn">Appeals</button>
+        <div class="dropdown-content">
+          <a href="bappeal.html">Ban</a>
+          <a href="sappeal.html">Suspension</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">Tiers</button>
+        <div class="dropdown-content">
+          <a href="stiers.html">Tiers</a>
+          <a href="subtiers.html">Sub tiers</a>
+        </div>
+      </div>
+      <a class="dropbtn" href="https://discord.gg/PzxeWYZkz6" target="_blank">Discord</a>
+      <a class="dropbtn" href="contact.html">Contact</a>
     </nav>
   </header>
+
   <main>
     <h1>Ban Appeal Form</h1>
-    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdK1M06kGdcqyiRXAuo3Gyffvzy2RrDYdD_ZZbKu-MGV8O9sw/viewform?embedded=true">Loading…</iframe>
+    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeBanAppealFormHere/viewform?embedded=true">Loading…</iframe>
   </main>
+
+  <footer>
+    &copy; 2025 SakuraVanilla. All rights reserved.
+  </footer>
 </body>
 </html>
