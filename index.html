@@ -1,76 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>SakuraVanilla's Website</title>
+  <meta charset="UTF-8" />
+  <title>Appeals - SakuraVanilla</title>
   <style>
-    html, body {
+    body {
       margin: 0;
-      padding: 0;
-      height: 100%;
-      background: linear-gradient(135deg, #1e1e1e, #2b2b2b);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #1e1e1e;
+      font-family: 'Segoe UI', sans-serif;
       color: #f0f0f0;
     }
 
     header {
       background: #2c2c2c;
+      padding: 20px 50px;
+      border-bottom: 3px solid #cc568b;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 50px;
-      border-bottom: 3px solid #cc568b;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
     }
 
     .logo {
-      width: 140px;
-      border-radius: 12px;
+      width: 120px;
     }
 
     nav {
       display: flex;
-      gap: 15px;
+      gap: 20px;
+      align-items: center;
     }
 
-    nav a {
-      text-decoration: none;
+    .dropdown {
+      position: relative;
+    }
+
+    .dropbtn {
+      background: transparent;
       color: #fff;
-      font-weight: 500;
-      font-size: 16px;
-      padding: 10px 20px;
       border: 2px solid #cc568b;
-      border-radius: 12px;
-      background-color: transparent;
-      transition: all 0.3s ease;
+      padding: 10px 16px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: 0.3s;
     }
 
-    nav a:hover {
-      background-color: #cc568b;
+    .dropbtn:hover {
+      background: #cc568b;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #2c2c2c;
+      min-width: 160px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+      z-index: 1;
+      border: 1px solid #cc568b;
+      border-radius: 10px;
+    }
+
+    .dropdown-content a {
       color: #fff;
-      transform: scale(1.05);
-      box-shadow: 0 0 10px #cc568b;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      border-bottom: 1px solid #444;
+    }
+
+    .dropdown-content a:last-child {
+      border-bottom: none;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #cc568b;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
     }
 
     main {
-      flex: 1;
       padding: 60px 20px;
       text-align: center;
     }
 
     h1 {
-      font-size: 2.8rem;
+      font-size: 2.6rem;
       color: #ff82b2;
-      margin-bottom: 10px;
-      text-shadow: 1px 1px 8px #cc568b;
+      margin-bottom: 20px;
     }
 
-    p {
-      font-size: 1.2rem;
-      color: #dcdcdc;
-      max-width: 700px;
-      margin: 0 auto;
-      line-height: 1.6;
+    iframe {
+      width: 100%;
+      max-width: 800px;
+      height: 600px;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 0 20px #cc568b55;
+    }
+
+    .quote-box {
+      font-style: italic;
+      margin-top: 40px;
+      color: #ccc;
+      font-size: 1.1rem;
+      height: 40px;
+      transition: opacity 0.5s ease;
     }
 
     footer {
@@ -80,46 +116,71 @@
       background-color: #1c1c1c;
       border-top: 2px solid #cc568b;
     }
-
-    @media (max-width: 600px) {
-      nav {
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      main {
-        padding: 40px 10px;
-      }
-
-      h1 {
-        font-size: 2rem;
-      }
-    }
   </style>
 </head>
 <body>
   <header>
     <img src="logo.png" alt="Logo" class="logo">
     <nav>
-      <a href="index.html">Home</a>
-      <a href="server.html">Server</a>
-      <a href="discord.html">Discord</a>
-      <a href="contact.html">Contact</a>
+      <div class="dropdown">
+        <button class="dropbtn">Appeals</button>
+        <div class="dropdown-content">
+          <a href="bappeal.html">Ban</a>
+          <a href="sappeal.html">Suspension</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button class="dropbtn">Support</button>
+        <div class="dropdown-content">
+          <a href="stiers.html">Tiers</a>
+          <a href="subtiers.html">Sub tiers</a>
+        </div>
+      </div>
+
+      <a class="dropbtn" href="contact.html">Contact</a>
     </nav>
   </header>
 
   <main>
-    <h1>Welcome to SakuraVanilla</h1>
-    <p>Your favorite chill space for community, Minecraft, and more. Feel the vibe, share the fun, and explore everything we have to offer.</p>
+    <h1>Appeals Portal</h1>
+    <p>Use this space to access your Ban or Suspension appeal forms. Choose the option above that best fits your case.</p>
+
+    <div class="quote-box" id="quoteBox">Loading quote...</div>
   </main>
 
   <footer>
     &copy; 2025 SakuraVanilla. All rights reserved.
   </footer>
+
+  <script>
+    const quotes = [
+      "Be the reason someone smiles today.",
+      "Chill vibes only, no drama.",
+      "Griefers fear the Sakura Spirit.",
+      "Community makes the craft.",
+      "Vanilla never tasted so good.",
+      "Stay sakura-sweet 🌸",
+      "Rules keep it fun for everyone.",
+      "Peace, blocks, and pickaxes.",
+      "Built with love — block by block.",
+      "Kindness is our strongest tool."
+    ];
+
+    let currentQuote = 0;
+    const quoteBox = document.getElementById("quoteBox");
+
+    function showNextQuote() {
+      quoteBox.style.opacity = 0;
+      setTimeout(() => {
+        quoteBox.textContent = quotes[currentQuote];
+        quoteBox.style.opacity = 1;
+        currentQuote = (currentQuote + 1) % quotes.length;
+      }, 300);
+    }
+
+    showNextQuote();
+    setInterval(showNextQuote, 4000);
+  </script>
 </body>
 </html>
