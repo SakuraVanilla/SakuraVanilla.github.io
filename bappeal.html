@@ -42,7 +42,7 @@ document.getElementById('appealForm').addEventListener('submit', async function 
   const confirmationDiv = document.getElementById('confirmation');
   const submitButton = this.querySelector('button[type="submit"]');
 
-  // Extract Discord username without discriminator
+  // Extract Discord username without discriminator for payload only
   let discordName = discordInput.value.trim();
   if (discordName.includes('#')) {
     discordName = discordName.split('#')[0];
@@ -76,7 +76,7 @@ document.getElementById('appealForm').addEventListener('submit', async function 
 
     if (response.ok) {
       confirmationDiv.textContent = "Appeal submitted successfully!";
-      // Clear all fields after successful submission
+      // Clear all inputs after successful submission
       ignInput.value = "";
       discordInput.value = "";
       reasonInput.value = "";
