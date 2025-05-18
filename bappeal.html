@@ -31,10 +31,11 @@
     <textarea id="message" rows="5" required></textarea>
     <button type="submit">Send Appeal</button>
   </form>
-<div style="margin-top: 20px; display: flex; gap: 10px; align-items: center;">
-  <a href="index.html" style="text-decoration: none; font-size: 16px;">← Back to Home</a>
-  <button id="logoutButton" style="display:none; padding: 0; font-size: 16px; border: none; background: none; color: #007bff; cursor: pointer;">Logout</button>
+<div style="margin-top: 20px; display: flex; justify-content: center; gap: 15px;">
+  <button onclick="window.location.href='index.html'" style="padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">← Back to Home</button>
+  <button id="logoutButton" style="display:none; padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;" onclick="logoutDiscord()">Logout</button>
 </div>
+
   <footer>© 2025 SakuraVanilla</footer>
 
   <script>
