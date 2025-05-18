@@ -1,64 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Ban Appeal</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ban Appeal - SakuraVanilla's Website</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
+  form { background: white; padding: 20px; border-radius: 8px; max-width: 400px; margin: auto; }
+  label { display: block; margin-top: 15px; }
+  input, textarea { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; }
+  button { margin-top: 15px; padding: 10px 15px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+  button:disabled { background: #aaa; cursor: not-allowed; }
+  #confirmation { margin-top: 15px; color: green; font-weight: bold; text-align: center; }
+</style>
 </head>
 <body>
-  <form id="banAppealForm">
-    <input type="text" id="ign" placeholder="IGN" required />
-    <input type="text" id="discord" placeholder="Discord (username#1234)" required />
-    <textarea id="reason" placeholder="Reason for appeal" required></textarea>
-    <button type="submit">Submit Appeal</button>
-  </form>
-  <p id="confirmation" style="color: green; display:none;">Appeal submitted successfully!</p>
 
-  <script>
-    const form = document.getElementById('banAppealForm');
-    const ignInput = document.getElementById('ign');
-    const discordInput = document.getElementById('discord');
-    const reasonInput = document.getElementById('reason');
-    const confirmation = document.getElementById('confirmation');
+<h2>Ban Appeal Form</h2>
+<form id="appealForm">
+  <label for="ign">Minecraft IGN:</label>
+  <input type="text" id="ign" name="ign" required />
 
-    form.addEventListener('submit', async e => {
-      e.preventDefault();
+  <label for="discord">Discord Username:</label>
+  <input type="text" id="discord" name="discord" required placeholder="Username#1234" />
 
-      let ign = ignInput.value.trim();
-      let discordName = discordInput.value.trim();
-      let reason = reasonInput.value.trim();
+  <label for="reason">Reason for Appeal:</label>
+  <textarea id="reason" name="reason" required rows="4"></textarea>
 
-      // Remove discriminator (#1234) from Discord username
-      if (discordName.includes('#')) {
-        discordName = discordName.split('#')[0];
+  <button type="submit">Submit Appeal</button>
+</form>
+
+<div id="confirmation"></div>
+
+<script>
+document.getElementById('appealForm').addEventListener('submit', async function (e) {
+  e.preventDefault();
+
+  const ignInput = document.getElementById('ign');
+  const discordInput = document.getElementById('discord');
+  const reasonInput = document.getElementById('reason');
+  const confirmationDiv = document.getElementById('confirmation');
+  const submitButton = this.querySelector('button[type="submit"]');
+
+  // Extract Discord username without discriminator
+  let discordName = discordInput.value.trim();
+  if (discordName.includes('#')) {
+    discordName = discordName.split('#')[0];
+  }
+
+  const payload = {
+    content: null,
+    embeds: [
+      {
+        title: "Ban Appeal Submission",
+        color: 5814783,
+        fields: [
+          { name: "IGN", value: ignInput.value.trim(), inline: true },
+          { name: "Discord", value: discordName, inline: true },
+          { name: "Reason", value: reasonInput.value.trim() }
+        ],
+        timestamp: new Date().toISOString()
       }
+    ]
+  };
 
-      if (!ign || !discordName || !reason) {
-        alert('Please fill in all fields.');
-        return;
-      }
+  submitButton.disabled = true;
+  confirmationDiv.textContent = "Submitting...";
 
-      try {
-        await fetch('https://l.webhook.party/hook/your-ban-appeal-webhook-url', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            IGN: ign,
-            Discord: discordName,
-            Reason: reason
-          })
-        });
-
-        confirmation.style.display = 'block';
-
-        // Clear the form fields after successful submission
-        ignInput.value = '';
-        discordInput.value = '';
-        reasonInput.value = '';
-
-      } catch (error) {
-        alert('Failed to submit appeal. Please try again.');
-      }
+  try {
+    const response = await fetch("https://l.webhook.party/hook/...", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
     });
-  </script>
+
+    if (response.ok) {
+      confirmationDiv.textContent = "Appeal submitted successfully!";
+      // Clear all fields after successful submission
+      ignInput.value = "";
+      discordInput.value = "";
+      reasonInput.value = "";
+    } else {
+      confirmationDiv.textContent = "Failed to submit appeal. Please try again later.";
+    }
+  } catch (error) {
+    confirmationDiv.textContent = "Error submitting appeal. Please check your connection.";
+  } finally {
+    submitButton.disabled = false;
+  }
+});
+</script>
+
 </body>
 </html>
