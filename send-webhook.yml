@@ -10,3 +10,16 @@ jobs:
         run: curl -X POST -H "Content-Type: application/json" \
           -d '{"content": "Hello from GitHub Actions!"}' \
           ${{ secrets.DISCORD_WEBHOOK }}
+
+      - name: Create Secure Webhook JSON
+        run: |
+          echo '{"webhook": "${{ secrets.DISCORD_WEBHOOK }}"}' > docs/secure-webhook.json
+      
+      - name: Commit Secure JSON (Hidden from Public)
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout main
+          git add docs/secure-webhook.json
+          git commit -m "Create Secure Webhook JSON"
+          git push
