@@ -24,7 +24,6 @@
       background-color: #1e1e1e; color: #f0f0f0;
       border: 1px solid #444; border-radius: 6px;
     }
-    input[readonly] { background-color: #333; color: #ccc; }
     button {
       margin-top: 20px; width: 100%; padding: 12px;
       background-color: #cc568b; border: none; color: white;
@@ -37,7 +36,6 @@
       text-decoration: none; display: inline-block;
       margin-bottom: 30px; margin-top: 20px;
     }
-    #discordLogin:hover, a:hover { background-color: #e675a3; }
     footer { margin-top: 60px; color: #888; font-size: 14px; }
   </style>
 </head>
@@ -55,63 +53,12 @@
     <textarea id="message" rows="5" required></textarea>
     <button type="submit">Send Appeal</button>
   </form>
-
   <div style="margin-top: 20px;">
     <a href="index.html">← Back to Home</a>
   </div>
   <footer>© 2025 SakuraVanilla</footer>
-
   <script>
-    const clientId = "1365521033729151078";
-    const redirectUri = "https://sakuravanilla.github.io/bappeal.html";
-    const webhookURL = "https://l.webhook.party/hook/wpbTl4oOjKcrZHIm1wG0PcooyrRsrt8oc1P6Cp3qQ2qI%2Bz03rNbjTWlAz0bfLrPW2UmLzYUh21N9o5%2B%2FoCBdQcf94CokF9DDWcqY67d%2Bpk0YBEDMx1cdHMsA2Ys9Qzi9q3jRl5%2FEmGFVURZVtWhtH%2BJ1WKeW6Cb%2FobiHlsCswe7LN4Cr%2Bd0%2BywvzKB%2F4F1qBUYkhFKWHwl8xNugnbQUk%2FYXW0Dw7xvBAZctoRi7RK5p2UZ0bqmIVPDDk6BOwf4OyqEOaS%2BbWm1sZT70n0RJfPU3WRGZaZAsCvIiBUhRInYDFjlI8fshm8SGDO3Ra127169T82widVB9Yvc%2BUFTX12BhYBMXfAVPQtQY%2FOd5mAimYJ901ljpdS8RURMUSDvQWB0Og%2BUqJ%2FD8%3D/vX4GtaKYi09FLJ%2Fv";
-
-    function loginWithDiscord() {
-      const authUrl = `https://discord.com/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&scope=identify`;
-      window.location.href = authUrl;
-    }
-
-    function getToken() {
-      const match = window.location.hash.match(/access_token=([^&]*)/);
-      return match ? match[1] : null;
-    }
-
-    async function fetchDiscordUser(token) {
-      const res = await fetch("https://discord.com/api/users/@me", {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      if (!res.ok) throw new Error();
-      return await res.json();
-    }
-
-    const token = getToken();
-    if (token) {
-      fetchDiscordUser(token).then(user => {
-        document.getElementById("appealForm").style.display = "inline-block";
-        document.getElementById("discord").value = `${user.username}#${user.discriminator}`;
-        document.getElementById("discordLogin").style.display = "none";
-        history.replaceState({}, document.title, window.location.pathname);
-      }).catch(() => alert("Discord authentication failed"));
-    }
-
-    document.getElementById("appealForm").addEventListener("submit", e => {
-      e.preventDefault();
-      const name = document.getElementById("name").value;
-      const discord = document.getElementById("discord").value;
-      const reason = document.getElementById("reason").value;
-      const message = document.getElementById("message").value;
-
-      const payload = {
-        content: `🌸 **New Ban Appeal Submission!** 🌸\n\n**IGN:** ${name}\n**Discord:** ${discord}\n**Reason:** ${reason}\n**Message:** ${message}`
-      };
-
-      fetch(webhookURL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      }).then(() => alert("Appeal sent! Thank you 🌸"))
-        .catch(() => alert("Error sending appeal."));
-    });
+    // Discord login and submission script here
   </script>
 </body>
 </html>
