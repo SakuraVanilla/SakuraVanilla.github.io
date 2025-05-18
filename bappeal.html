@@ -12,11 +12,15 @@
     input[readonly] { background-color: #333; color: #ccc; }
     button { margin-top: 20px; width: 100%; padding: 12px; background-color: #cc568b; border: none; color: white; font-size: 18px; border-radius: 8px; cursor: pointer; }
     button:hover { background-color: #e675a3; }
+    #discordLogin, a { background-color: #cc568b; color: white; padding: 12px 30px; border-radius: 8px; text-decoration: none; display: inline-block; margin-bottom: 30px; margin-top: 20px; }
+    #discordLogin:hover, a:hover { background-color: #e675a3; }
+    footer { margin-top: 60px; color: #888; font-size: 14px; }
   </style>
 </head>
 <body>
   <h1>Ban Appeal</h1>
   <button id="discordLogin" onclick="loginWithDiscord()">Login with Discord</button>
+  <button id="logoutButton" style="display:none;" onclick="logoutDiscord()">Logout</button>
   <form id="appealForm" style="display:none;">
     <label for="name">IGN</label>
     <input type="text" id="name" required />
@@ -26,18 +30,77 @@
     <input type="text" id="reason" required />
     <label for="message">Appeal Message</label>
     <textarea id="message" rows="5" required></textarea>
-    <button type="submit" id="submitBtn">Send Appeal</button>
+    <button type="submit">Send Appeal</button>
   </form>
 
   <div style="margin-top: 20px;">
     <a href="index.html">← Back to Home</a>
-    <button id="logoutButton" style="display:none;" onclick="logoutDiscord()">Logout</button>
   </div>
   <footer>© 2025 SakuraVanilla</footer>
 
   <script>
-    // JavaScript for Discord login and 10-minute cooldown will be added here
+    const clientId = "1365521033729151078";
+    const redirectUri = "https://sakuravanilla.github.io/bappeal.html";
+
+    function loginWithDiscord() {
+      const authUrl = `https://discord.com/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&scope=identify`;
+      window.location.href = authUrl;
+    }
+
+    function logoutDiscord() {
+      localStorage.removeItem("discordUser");
+      location.reload();
+    }
+
+    function getToken() {
+      const match = window.location.hash.match(/access_token=([^&]*)/);
+      return match ? match[1] : null;
+    }
+
+    async function fetchDiscordUser(token) {
+      const res = await fetch("https://discord.com/api/users/@me", { headers: { Authorization: `Bearer ${token}` } });
+      if (!res.ok) throw new Error();
+      return await res.json();
+    }
+
+    function showForm(user) {
+      document.getElementById("appealForm").style.display = "inline-block";
+      document.getElementById("discordLogin").style.display = "none";
+      document.getElementById("logoutButton").style.display = "inline-block";
+      document.getElementById("discord").value = `${user.username}#${user.discriminator}`;
+    }
+
+    const token = getToken();
+    if (token) {
+      fetchDiscordUser(token).then(user => {
+        localStorage.setItem("discordUser", JSON.stringify(user));
+        showForm(user);
+        history.replaceState({}, document.title, window.location.pathname);
+      }).catch(() => alert("Discord authentication failed"));
+    } else if (localStorage.getItem("discordUser")) {
+      const user = JSON.parse(localStorage.getItem("discordUser"));
+      showForm(user);
+    }
+
+    fetch("docs/secure-webhook.json").then(response => response.json()).then(data => {
+      const webhookURL = data.webhook;
+      document.getElementById("appealForm").addEventListener("submit", e => {
+        e.preventDefault();
+        const name = document.getElementById("name").value;
+        const discord = document.getElementById("discord").value;
+        const reason = document.getElementById("reason").value;
+        const message = document.getElementById("message").value;
+
+        const payload = {
+          content: `🌸 **New Ban Appeal Submission!** 🌸\n\n**IGN:** ${name}\n**Discord:** ${discord}\n**Reason:** ${reason}\n**Message:** ${message}`
+        };
+
+        fetch(webhookURL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) })
+          .then(() => alert("Appeal sent! Thank you 🌸"))
+          .catch(() => alert("Error sending appeal."));
+      });
+    });
+
   </script>
 </body>
 </html>
-s
