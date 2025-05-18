@@ -1,0 +1,12 @@
+name: Secure Webhook Example
+
+on: [push]
+
+jobs:
+  send_webhook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Webhook Securely
+        run: curl -X POST -H "Content-Type: application/json" \
+          -d '{"content": "Hello from GitHub Actions!"}' \
+          ${{ secrets.DISCORD_WEBHOOK }}
