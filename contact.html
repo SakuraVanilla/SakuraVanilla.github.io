@@ -2,160 +2,51 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Contact - SakuraVanilla's Website</title>
+  <title>Contact - SakuraVanilla</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; }
-    #login-section, #form-section { display: none; }
-    button { padding: 10px 15px; font-size: 1rem; cursor: pointer; }
-    input, textarea { width: 100%; margin-bottom: 10px; padding: 8px; }
+    body { background-color: #1e1e1e; font-family: 'Arial', sans-serif; color: #f0f0f0; text-align: center; margin: 0; padding: 50px 20px; }
+    h1 { color: #cc568b; margin-bottom: 30px; }
+    form { display: inline-block; text-align: left; background: #2c2c2c; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    input, textarea { width: 300px; padding: 10px; background-color: #1e1e1e; color: #f0f0f0; border: 1px solid #444; border-radius: 6px; }
+    button { margin-top: 20px; width: 100%; padding: 12px; background-color: #cc568b; border: none; color: white; font-size: 18px; border-radius: 8px; cursor: pointer; }
+    button:hover { background-color: #e675a3; }
   </style>
 </head>
 <body>
-
-<h1>Contact</h1>
-
-<div id="login-section">
-  <p>Please login with Discord to continue:</p>
-  <button id="discord-login-btn">Login with Discord</button>
-</div>
-
-<div id="form-section">
-  <p>Logged in as <span id="discord-username"></span></p>
-  <form id="contact-form">
-    <label>Your Message:</label>
-    <textarea id="message" required rows="4" placeholder="Type your message here..."></textarea>
-    <button type="submit">Send Message</button>
+  <h1>Contact Us</h1>
+  <form id="contactForm">
+    <label for="name">Name</label>
+    <input type="text" id="name" required />
+    <label for="email">Email</label>
+    <input type="email" id="email" required />
+    <label for="message">Message</label>
+    <textarea id="message" rows="5" required></textarea>
+    <button type="submit" id="submitBtn">Send Message</button>
   </form>
-  <p id="status"></p>
-  <button id="logout-btn">Logout</button>
-</div>
 
-<script>
-  const clientId = "YOUR_CLIENT_ID";
-  const redirectUri = "YOUR_REDIRECT_URI";  // Must be exactly this page URL in Discord OAuth2 settings
-  const scope = "identify";
+  <div style="margin-top: 20px;">
+    <a href="index.html">← Back to Home</a>
+  </div>
+  <footer>© 2025 SakuraVanilla</footer>
 
-  const loginSection = document.getElementById('login-section');
-  const formSection = document.getElementById('form-section');
-  const discordUsernameSpan = document.getElementById('discord-username');
-  const statusP = document.getElementById('status');
-  const logoutBtn = document.getElementById('logout-btn');
+  <script>
+    document.getElementById("contactForm").addEventListener("submit", function(e) {
+      e.preventDefault();
 
-  function parseHash(hash) {
-    const params = {};
-    hash.substring(1).split("&").forEach(kv => {
-      let [key, val] = kv.split("=");
-      params[key] = decodeURIComponent(val);
+      const lastSubmission = localStorage.getItem("lastContactSubmission");
+      const now = Date.now();
+
+      if (lastSubmission && now - lastSubmission < 150000) {
+        alert("You must wait 2.5 minutes between messages.");
+        return;
+      }
+
+      localStorage.setItem("lastContactSubmission", now);
+
+      // Send contact message logic here
+      alert("Message sent! Thank you.");
     });
-    return params;
-  }
-
-  function setLoggedIn(user) {
-    discordUsernameSpan.textContent = `${user.username}#${user.discriminator}`;
-    loginSection.style.display = "none";
-    formSection.style.display = "block";
-  }
-
-  function logout() {
-    localStorage.removeItem("discordUser");
-    loginSection.style.display = "block";
-    formSection.style.display = "none";
-  }
-
-  async function fetchUserData(token) {
-    try {
-      const res = await fetch("https://discord.com/api/users/@me", {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      if (!res.ok) throw new Error("Failed to fetch user data");
-      return await res.json();
-    } catch(e) {
-      alert("Discord login failed. Please try again.");
-      logout();
-    }
-  }
-
-  // Check if we already have token stored
-  async function init() {
-    const stored = JSON.parse(localStorage.getItem("discordUser"));
-    if (stored && stored.token && stored.user) {
-      setLoggedIn(stored.user);
-    } else {
-      // Check if redirected back with access token in URL hash
-      if (window.location.hash) {
-        const params = parseHash(window.location.hash);
-        if (params.access_token) {
-          const user = await fetchUserData(params.access_token);
-          if (user) {
-            localStorage.setItem("discordUser", JSON.stringify({ token: params.access_token, user }));
-            setLoggedIn(user);
-            // Clean the URL (remove hash)
-            history.replaceState(null, null, window.location.pathname);
-          } else {
-            loginSection.style.display = "block";
-          }
-        } else {
-          loginSection.style.display = "block";
-        }
-      } else {
-        loginSection.style.display = "block";
-      }
-    }
-  }
-
-  document.getElementById("discord-login-btn").addEventListener("click", () => {
-    const oauthUrl = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&scope=${scope}`;
-    window.location.href = oauthUrl;
-  });
-
-  logoutBtn.addEventListener("click", () => {
-    logout();
-  });
-
-  // Handle form submission
-  document.getElementById("contact-form").addEventListener("submit", async e => {
-    e.preventDefault();
-    statusP.textContent = "Sending...";
-    const stored = JSON.parse(localStorage.getItem("discordUser"));
-    if (!stored) {
-      statusP.textContent = "You must be logged in.";
-      return;
-    }
-
-    const webhookUrl = "YOUR_DISCORD_WEBHOOK_URL"; // Replace with your webhook
-
-    const payload = {
-      username: stored.user.username,
-      avatar_url: `https://cdn.discordapp.com/avatars/${stored.user.id}/${stored.user.avatar}.png`,
-      embeds: [{
-        title: "Contact Form Message",
-        description: document.getElementById("message").value,
-        color: 0x3498db,
-        footer: { text: `Discord ID: ${stored.user.id}` },
-        timestamp: new Date().toISOString()
-      }]
-    };
-
-    try {
-      const res = await fetch(webhookUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-      if (res.ok) {
-        statusP.textContent = "Message sent successfully!";
-        e.target.reset();
-      } else {
-        statusP.textContent = "Failed to send message.";
-      }
-    } catch (err) {
-      statusP.textContent = "Error sending message.";
-    }
-  });
-
-  init();
-</script>
-
+  </script>
 </body>
 </html>
