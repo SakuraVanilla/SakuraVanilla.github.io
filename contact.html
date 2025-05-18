@@ -12,178 +12,41 @@
       margin: 0;
       padding: 50px 20px;
     }
-    h1 {
-      color: #cc568b;
-      margin-bottom: 30px;
-    }
+    h1 { color: #cc568b; margin-bottom: 30px; }
     form {
-      display: inline-block;
-      text-align: left;
-      background: #2c2c2c;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      display: inline-block; text-align: left;
+      background: #2c2c2c; padding: 30px;
+      border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.4);
     }
-    label {
-      display: block;
-      margin-top: 15px;
-      margin-bottom: 5px;
-      font-weight: bold;
-      color: #f0f0f0;
-    }
+    label { display: block; margin-top: 15px; font-weight: bold; }
     input, textarea {
-      width: 300px;
-      padding: 10px;
-      border: 1px solid #444;
-      border-radius: 6px;
-      font-size: 16px;
-      background-color: #1e1e1e;
-      color: #f0f0f0;
+      width: 300px; padding: 10px;
+      background-color: #1e1e1e; color: #f0f0f0;
+      border: 1px solid #444; border-radius: 6px;
     }
-    input[readonly] {
-      background-color: #333;
-      color: #ccc;
-    }
+    input[readonly] { background-color: #333; color: #ccc; }
     button {
-      margin-top: 20px;
-      width: 100%;
-      padding: 12px;
-      background-color: #cc568b;
-      border: none;
-      color: white;
-      font-size: 18px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s;
+      margin-top: 20px; width: 100%; padding: 12px;
+      background-color: #cc568b; border: none; color: white;
+      font-size: 18px; border-radius: 8px; cursor: pointer;
     }
-    button:hover {
-      background-color: #e675a3;
-    }
-    #discordLogin {
-      background-color: #cc568b;
-      color: white;
-      font-size: 18px;
-      padding: 12px 30px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      margin-bottom: 30px;
-      transition: background 0.3s;
-    }
-    #discordLogin:hover {
-      background-color: #e675a3;
-    }
-    a {
-      display: inline-block;
-      margin-top: 30px;
-      padding: 10px 20px;
-      background-color: #cc568b;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      transition: background 0.3s;
-    }
-    a:hover {
-      background-color: #e675a3;
-    }
-    footer {
-      margin-top: 60px;
-      color: #888;
-      font-size: 14px;
-    }
+    button:hover { background-color: #e675a3; }
   </style>
 </head>
 <body>
-
   <h1>Contact SakuraVanilla</h1>
-
-  <button id="discordLogin" onclick="loginWithDiscord()">Login with Discord</button>
-
-  <form id="contactForm" style="display:none;">
+  <form>
     <label for="name">IGN</label>
-    <input type="text" id="name" name="name" required>
+    <input type="text" id="name" required>
 
     <label for="discord">Discord</label>
-    <input type="text" id="discord" name="discord" readonly required>
+    <input type="text" id="discord" required>
 
-    <label for="message">Your Message</label>
-    <textarea id="message" name="message" rows="5" required></textarea>
+    <label for="message">Message</label>
+    <textarea id="message" rows="5" required></textarea>
 
     <button type="submit">Send Message</button>
   </form>
-
-  <br>
-  <a href="index.html">← Back to Home</a>
-
   <footer>© 2025 SakuraVanilla</footer>
-
-  <script>
-    const clientId = "1365521033729151078";
-    const redirectUri = "https://sakuravanilla.github.io/contact.html";
-
-    function loginWithDiscord() {
-      const authUrl = `https://discord.com/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&scope=identify`;
-      window.location.href = authUrl;
-    }
-
-    function getAccessTokenFromUrl() {
-      const hash = window.location.hash;
-      const match = hash.match(/access_token=([^&]*)/);
-      return match ? match[1] : null;
-    }
-
-    async function fetchDiscordUser(token) {
-      const res = await fetch("https://discord.com/api/users/@me", {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      if (!res.ok) throw new Error("Failed to fetch Discord user");
-      return await res.json();
-    }
-
-    const token = getAccessTokenFromUrl();
-    if (token) {
-      fetchDiscordUser(token).then(user => {
-        document.querySelector("form").style.display = "inline-block";
-        document.getElementById("discord").value = `${user.username}#${user.discriminator}`;
-        document.getElementById("discordLogin").style.display = "none";
-        history.replaceState({}, document.title, window.location.pathname);
-      }).catch(() => {
-        alert("Failed to authenticate with Discord.");
-      });
-    }
-
-    const form = document.getElementById('contactForm');
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      const ign = document.getElementById('name').value;
-      const discord = document.getElementById('discord').value;
-      const message = document.getElementById('message').value;
-
-      const webhookURL = "https://l.webhook.party/hook/wpbTl4oOjKcrZHIm1wG0PcooyrRsrt8oc1P6Cp3qQ2qI%2Bz03rNbjTWlAz0bfLrPW2UmLzYUh21N9o5%2B%2FoCBdQcf94CokF9DDWcqY67d%2Bpk0YBEDMx1cdHMsA2Ys9Qzi9q3jRl5%2FEmGFVURZVtWhtH%2BJ1WKeW6Cb%2FobiHlsCswe7LN4Cr%2Bd0%2BywvzKB%2F4F1qBUYkhFKWHwl8xNugnbQUk%2FYXW0Dw7xvBAZctoRi7RK5p2UZ0bqmIVPDDk6BOwf4OyqEOaS%2BbWm1sZT70n0RJfPU3WRGZaZAsCvIiBUhRInYDFjlI8fshm8SGDO3Ra127169T82widVB9Yvc%2BUFTX12BhYBMXfAVPQtQY%2FOd5mAimYJ901ljpdS8RURMUSDvQWB0Og%2BUqJ%2FD8%3D/vX4GtaKYi09FLJ%2Fv";
-
-      const xhr = new XMLHttpRequest();
-      xhr.open("POST", webhookURL, true);
-      xhr.setRequestHeader('Content-Type', 'application/json');
-
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-          if (xhr.status >= 200 && xhr.status < 300) {
-            alert('Message sent! Thank you 🌸');
-            form.reset();
-          } else {
-            alert('Failed to send. Please try again.');
-          }
-        }
-      };
-
-      const payload = {
-        content: `🌸 **New Contact Form Submission!** 🌸\n\n**IGN:** ${ign}\n**Discord:** ${discord}\n**Message:** ${message}`
-      };
-
-      xhr.send(JSON.stringify(payload));
-    });
-  </script>
-
 </body>
 </html>
