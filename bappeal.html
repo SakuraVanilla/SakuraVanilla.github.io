@@ -1,117 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Ban Appeal - SakuraVanilla</title>
-  <style>
-    body {
-      background-color: #1e1e1e;
-      font-family: 'Arial', sans-serif;
-      color: #f0f0f0;
-      text-align: center;
-      margin: 0;
-      padding: 50px 20px;
-    }
-    h1 { color: #cc568b; margin-bottom: 30px; }
-    form {
-      display: inline-block; text-align: left;
-      background: #2c2c2c; padding: 30px;
-      border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    }
-    label { display: block; margin-top: 15px; font-weight: bold; }
-    input, textarea {
-      width: 300px; padding: 10px;
-      background-color: #1e1e1e; color: #f0f0f0;
-      border: 1px solid #444; border-radius: 6px;
-    }
-    input[readonly] { background-color: #333; color: #ccc; }
-    button {
-      margin-top: 20px; width: 100%; padding: 12px;
-      background-color: #cc568b; border: none; color: white;
-      font-size: 18px; border-radius: 8px; cursor: pointer;
-    }
-    button:hover { background-color: #e675a3; }
-    #discordLogin, a {
-      background-color: #cc568b; color: white;
-      padding: 12px 30px; border-radius: 8px;
-      text-decoration: none; display: inline-block;
-      margin-bottom: 30px; margin-top: 20px;
-    }
-    #discordLogin:hover, a:hover { background-color: #e675a3; }
-    footer { margin-top: 60px; color: #888; font-size: 14px; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ban Appeal - SakuraVanilla's Website</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
+  form { background: white; padding: 20px; border-radius: 8px; max-width: 400px; margin: auto; }
+  label { display: block; margin-top: 15px; }
+  input, textarea { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; }
+  button { margin-top: 15px; padding: 10px 15px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+  button:disabled { background: #aaa; cursor: not-allowed; }
+  #confirmation { margin-top: 15px; color: green; font-weight: bold; text-align: center; }
+</style>
 </head>
 <body>
-  <h1>Ban Appeal</h1>
-  <button id="discordLogin" onclick="loginWithDiscord()">Login with Discord</button>
-  <form id="appealForm" style="display:none;">
-    <label for="name">IGN</label>
-    <input type="text" id="name" required />
-    <label for="discord">Discord</label>
-    <input type="text" id="discord" readonly required />
-    <label for="reason">Reason for Ban</label>
-    <input type="text" id="reason" required />
-    <label for="message">Appeal Message</label>
-    <textarea id="message" rows="5" required></textarea>
-    <button type="submit">Send Appeal</button>
-  </form>
 
-  <div style="margin-top: 20px;">
-    <a href="index.html">← Back to Home</a>
-  </div>
-  <footer>© 2025 SakuraVanilla</footer>
+<h2>Ban Appeal Form</h2>
+<form id="appealForm">
+  <label for="ign">Minecraft IGN:</label>
+  <input type="text" id="ign" name="ign" required />
 
-  <script>
-    const clientId = "1365521033729151078";
-    const redirectUri = "https://sakuravanilla.github.io/bappeal.html";
-    const webhookURL = "https://l.webhook.party/hook/wpbTl4oOjKcrZHIm1wG0PcooyrRsrt8oc1P6Cp3qQ2qI%2Bz03rNbjTWlAz0bfLrPW2UmLzYUh21N9o5%2B%2FoCBdQcf94CokF9DDWcqY67d%2Bpk0YBEDMx1cdHMsA2Ys9Qzi9q3jRl5%2FEmGFVURZVtWhtH%2BJ1WKeW6Cb%2FobiHlsCswe7LN4Cr%2Bd0%2BywvzKB%2F4F1qBUYkhFKWHwl8xNugnbQUk%2FYXW0Dw7xvBAZctoRi7RK5p2UZ0bqmIVPDDk6BOwf4OyqEOaS%2BbWm1sZT70n0RJfPU3WRGZaZAsCvIiBUhRInYDFjlI8fshm8SGDO3Ra127169T82widVB9Yvc%2BUFTX12BhYBMXfAVPQtQY%2FOd5mAimYJ901ljpdS8RURMUSDvQWB0Og%2BUqJ%2FD8%3D/vX4GtaKYi09FLJ%2Fv";
+  <label for="discord">Discord Username:</label>
+  <input type="text" id="discord" name="discord" required placeholder="Username#1234" />
 
-    function loginWithDiscord() {
-      const authUrl = `https://discord.com/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&scope=identify`;
-      window.location.href = authUrl;
-    }
+  <label for="reason">Reason for Appeal:</label>
+  <textarea id="reason" name="reason" required rows="4"></textarea>
 
-    function getToken() {
-      const match = window.location.hash.match(/access_token=([^&]*)/);
-      return match ? match[1] : null;
-    }
+  <button type="submit">Submit Appeal</button>
+</form>
 
-    async function fetchDiscordUser(token) {
-      const res = await fetch("https://discord.com/api/users/@me", {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      if (!res.ok) throw new Error();
-      return await res.json();
-    }
+<div id="confirmation"></div>
 
-    const token = getToken();
-    if (token) {
-      fetchDiscordUser(token).then(user => {
-        document.getElementById("appealForm").style.display = "inline-block";
-        document.getElementById("discord").value = `${user.username}#${user.discriminator}`;
-        document.getElementById("discordLogin").style.display = "none";
-        history.replaceState({}, document.title, window.location.pathname);
-      }).catch(() => alert("Discord authentication failed"));
-    }
+<script>
+document.getElementById('appealForm').addEventListener('submit', async function (e) {
+  e.preventDefault();
 
-    document.getElementById("appealForm").addEventListener("submit", e => {
-      e.preventDefault();
-      const name = document.getElementById("name").value;
-      const discord = document.getElementById("discord").value;
-      const reason = document.getElementById("reason").value;
-      const message = document.getElementById("message").value;
+  const ignInput = document.getElementById('ign');
+  const discordInput = document.getElementById('discord');
+  const reasonInput = document.getElementById('reason');
+  const confirmationDiv = document.getElementById('confirmation');
+  const submitButton = this.querySelector('button[type="submit"]');
 
-      const payload = {
-        content: `🌸 **New Ban Appeal Submission!** 🌸\n\n**IGN:** ${name}\n**Discord:** ${discord}\n**Reason:** ${reason}\n**Message:** ${message}`
-      };
+  // Extract Discord username without discriminator
+  let discordName = discordInput.value.trim();
+  if (discordName.includes('#')) {
+    discordName = discordName.split('#')[0];
+  }
 
-      fetch(webhookURL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      }).then(() => alert("Appeal sent! Thank you 🌸"))
-        .catch(() => alert("Error sending appeal."));
+  const payload = {
+    content: null,
+    embeds: [
+      {
+        title: "Ban Appeal Submission",
+        color: 5814783,
+        fields: [
+          { name: "IGN", value: ignInput.value.trim(), inline: true },
+          { name: "Discord", value: discordName, inline: true },
+          { name: "Reason", value: reasonInput.value.trim() }
+        ],
+        timestamp: new Date().toISOString()
+      }
+    ]
+  };
+
+  submitButton.disabled = true;
+  confirmationDiv.textContent = "Submitting...";
+
+  try {
+    const response = await fetch("https://l.webhook.party/hook/...", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
     });
-  </script>
+
+    if (response.ok) {
+      confirmationDiv.textContent = "Appeal submitted successfully!";
+      // Clear IGN and Reason fields only
+      ignInput.value = "";
+      reasonInput.value = "";
+      // Keep Discord username but remove discriminator if any
+      discordInput.value = discordName;
+    } else {
+      confirmationDiv.textContent = "Failed to submit appeal. Please try again later.";
+    }
+  } catch (error) {
+    confirmationDiv.textContent = "Error submitting appeal. Please check your connection.";
+  } finally {
+    submitButton.disabled = false;
+  }
+});
+</script>
+
 </body>
 </html>
