@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title>Ban Appeal - SakuraVanilla</title>
   <style>
-    body { background-color: #1e1e1e; font-family: 'Arial', sans-serif; color: #f0f0f0; text-align: center; margin: 0; padding: 50px 20px; }
+    body { background-color: #1e1e1e; font-family: Arial, sans-serif; color: #f0f0f0; text-align: center; padding: 50px 20px; }
     h1 { color: #cc568b; margin-bottom: 30px; }
     form { display: inline-block; text-align: left; background: #2c2c2c; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
     label { display: block; margin-top: 15px; font-weight: bold; }
@@ -12,94 +12,80 @@
     input[readonly] { background-color: #333; color: #ccc; }
     button { margin-top: 20px; width: 100%; padding: 12px; background-color: #cc568b; border: none; color: white; font-size: 18px; border-radius: 8px; cursor: pointer; }
     button:hover { background-color: #e675a3; }
-    #discordLogin, a { background-color: #cc568b; color: white; padding: 12px 30px; border-radius: 8px; text-decoration: none; display: inline-block; margin-bottom: 30px; margin-top: 20px; }
-    #discordLogin:hover, a:hover { background-color: #e675a3; }
+    #discordLogin { background-color: #cc568b; color: white; padding: 12px 30px; border-radius: 8px; text-decoration: none; display: inline-block; margin-bottom: 30px; margin-top: 20px; cursor: pointer; }
+    #discordLogin:hover { background-color: #e675a3; }
     footer { margin-top: 60px; color: #888; font-size: 14px; }
   </style>
 </head>
 <body>
   <h1>Ban Appeal</h1>
+
   <button id="discordLogin" onclick="loginWithDiscord()">Login with Discord</button>
+
   <form id="appealForm" style="display:none;">
     <label for="name">IGN</label>
     <input type="text" id="name" required />
+
     <label for="discord">Discord</label>
     <input type="text" id="discord" readonly required />
+
     <label for="reason">Reason for Ban</label>
     <input type="text" id="reason" required />
+
     <label for="message">Appeal Message</label>
-    <textarea id="message" rows="5" required></textarea>
-    <button type="submit">Send Appeal</button>
+    <textarea id="message" rows="4" required></textarea>
+
+    <button type="submit">Submit Appeal</button>
   </form>
-<div style="margin-top: 32px; display: flex; justify-content: center; gap: 8px;">
-  <button onclick="window.location.href='index.html'" style="padding: 12px 15px; background-color: #cc568b; border: none; color: white; font-size: 16px; border-radius: 8px; cursor: pointer;">← Back to Home</button>
-  <button id="logoutButton" onclick="logoutDiscord()" style="display:none; padding: 12px 15px; background-color: #cc568b; border: none; color: white; font-size: 16px; border-radius: 8px; cursor: pointer;">Logout</button>
-</div>
-  <footer>© 2025 SakuraVanilla</footer>
+
+  <footer>&copy; 2025 SakuraVanilla</footer>
 
   <script>
-    const clientId = "1365521033729151078";
-    const redirectUri = "https://sakuravanilla.github.io/bappeal.html";
+    const webhookURL = "https://webhook.site/d625ba71-d338-46ea-a651-a5ae4368056e";
 
     function loginWithDiscord() {
-      const authUrl = `https://discord.com/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&scope=identify`;
-      window.location.href = authUrl;
+      // Fake Discord login for testing
+      const fakeDiscord = prompt("Enter your Discord username (e.g., User#1234):");
+      if (fakeDiscord) {
+        document.getElementById("discord").value = fakeDiscord;
+        document.getElementById("discordLogin").style.display = "none";
+        document.getElementById("appealForm").style.display = "block";
+      }
     }
 
-    function logoutDiscord() {
-      localStorage.removeItem("discordUser");
-      location.reload();
-    }
+    document.getElementById("appealForm").addEventListener("submit", function (e) {
+      e.preventDefault();
 
-    function getToken() {
-      const match = window.location.hash.match(/access_token=([^&]*)/);
-      return match ? match[1] : null;
-    }
+      const data = {
+        username: "Ban Appeal Form",
+        embeds: [{
+          title: "New Ban Appeal Submitted",
+          color: 0xcc568b,
+          fields: [
+            { name: "IGN", value: document.getElementById("name").value },
+            { name: "Discord", value: document.getElementById("discord").value },
+            { name: "Reason for Ban", value: document.getElementById("reason").value },
+            { name: "Appeal Message", value: document.getElementById("message").value }
+          ],
+          timestamp: new Date().toISOString()
+        }]
+      };
 
-    async function fetchDiscordUser(token) {
-      const res = await fetch("https://discord.com/api/users/@me", { headers: { Authorization: `Bearer ${token}` } });
-      if (!res.ok) throw new Error();
-      return await res.json();
-    }
-
-    function showForm(user) {
-      document.getElementById("appealForm").style.display = "inline-block";
-      document.getElementById("discordLogin").style.display = "none";
-      document.getElementById("logoutButton").style.display = "inline-block";
-      document.getElementById("discord").value = `${user.username}#${user.discriminator}`;
-    }
-
-    const token = getToken();
-    if (token) {
-      fetchDiscordUser(token).then(user => {
-        localStorage.setItem("discordUser", JSON.stringify(user));
-        showForm(user);
-        history.replaceState({}, document.title, window.location.pathname);
-      }).catch(() => alert("Discord authentication failed"));
-    } else if (localStorage.getItem("discordUser")) {
-      const user = JSON.parse(localStorage.getItem("discordUser"));
-      showForm(user);
-    }
-
-    fetch("docs/secure-webhook.json").then(response => response.json()).then(data => {
-      const webhookURL = data.webhook;
-      document.getElementById("appealForm").addEventListener("submit", e => {
-        e.preventDefault();
-        const name = document.getElementById("name").value;
-        const discord = document.getElementById("discord").value;
-        const reason = document.getElementById("reason").value;
-        const message = document.getElementById("message").value;
-
-        const payload = {
-          content: `🌸 **New Ban Appeal Submission!** 🌸\n\n**IGN:** ${name}\n**Discord:** ${discord}\n**Reason:** ${reason}\n**Message:** ${message}`
-        };
-
-        fetch(webhookURL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) })
-          .then(() => alert("Appeal sent! Thank you 🌸"))
-          .catch(() => alert("Error sending appeal."));
+      fetch(webhookURL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      })
+      .then(response => {
+        alert("Appeal submitted successfully!");
+        document.getElementById("appealForm").reset();
+        document.getElementById("appealForm").style.display = "none";
+      })
+      .catch(error => {
+        alert("Error submitting appeal.");
+        console.error(error);
       });
     });
-
   </script>
 </body>
 </html>
